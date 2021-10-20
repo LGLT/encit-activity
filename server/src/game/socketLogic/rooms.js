@@ -1,30 +1,4 @@
-var teamsRooms = 
-[
-    {
-        name: 'Ciclo hidrológico',
-        teammates: []
-    },
-    {
-        name: 'Ciclo del carbono',
-        teammates: []
-    },
-    {
-        name: 'Ciclo del nitrógeno',
-        teammates: []
-    },
-    {
-        name: 'Ciclo del azufre',
-        teammates: []
-    },
-    {
-        name: 'Ciclo del fósforo',
-        teammates: []
-    },
-    {
-        name: 'Ciclo del oxígeno',
-        teammates: []
-    },
-]
+var teamsRooms = require('./teamsInfo')
 
 var gameInCourse = false;
 
@@ -77,6 +51,9 @@ exports = module.exports = function(io){
             socket.join(teamName)
         });
 
+        // socket.on('teammates', function (teamName) {
+        //     teamsRooms.map(t => t.name === teamName ? console.log(t.teammates) : null)
+        // })
 
     });
 }

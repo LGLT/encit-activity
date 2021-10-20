@@ -5,6 +5,8 @@ var questionsHidrologico = require('../questionBank/questionsHidrologico');
 var questionsNitrogeno = require('../questionBank/questionsNitrogeno');
 var questionsOxigeno = require('../questionBank/questionsOxigeno');
 
+var teamsRooms = require('./teamsInfo')
+
 let selections = {
     hidrologico: [],
     carbono: [],
@@ -68,6 +70,14 @@ exports = module.exports = function(io){
                 selections.oxigeno.push({name: username, option })
                 io.to(teamName).emit('showSelectedOption', selections.oxigeno)
             }
+        });
+
+        socket.on('checkAllSelections', function (num, teamName) {
+
+            teamsRooms.map(t => t.name === teamName 
+                ? num === t.teammates.length ? socket.emit('selectionsFinished') : null
+                : null
+            )
         });
 
     });

@@ -9,6 +9,10 @@ export default function Game () {
 
     const roomSub = () => { socket.emit('roomSub', localStorage.teamName) }
 
+    useEffect(() => {
+
+    }, [])
+
     return (
         <div>
             {roomSub()}

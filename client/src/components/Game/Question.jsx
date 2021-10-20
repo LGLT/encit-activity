@@ -13,6 +13,7 @@ export default function Question ({actual, setActualQuestion}) {
         if(!localStorage.selectedOption){
             dispatch(selectedOption(true))
             socket.emit('selectedOption', localStorage.username, localStorage.teamName, event.target.innerText);
+            socket.emit('teammates', localStorage.teamName)
         }
         else return
     }

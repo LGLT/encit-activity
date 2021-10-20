@@ -4,12 +4,23 @@ import socket from '../socket/socket';
 
 export default function Selections () {
     const [usersSelections, setUsersSelections] = useState([])
+    const [showResults, setShowResults] = useState(false)
 
     useEffect(() => {
         socket.on('showSelectedOption', (selections) => {
             setUsersSelections(selections)
         })
+
+        socket.on('selectionsFinished', () => {
+            setShowResults(true)
+        })
+    
+
     })
+
+    useEffect(() => {
+        socket.emit('checkAllSelections', usersSelections.length, localStorage.teamName)
+    }, [usersSelections])
 
     return (
         <div>
@@ -27,6 +38,7 @@ export default function Selections () {
                     </div>
                 : null
             }
+
         </div>
     );
 

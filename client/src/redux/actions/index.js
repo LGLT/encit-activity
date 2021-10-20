@@ -1,6 +1,9 @@
 //SignUp
 export const SIGN_UP = 'SIGN_UP';
 
+//SaveTeammates
+export const SAVE_TEAMMATES = 'SAVE_TEAMMATES';
+
 //JoinToTeam
 export const JOIN_TO_TEAM = 'JOIN_TO_TEAM';
 
