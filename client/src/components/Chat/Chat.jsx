@@ -10,10 +10,7 @@ export default function Chat () {
 
     useEffect(() => {
         socket.on('sendMessage', (message) => {
-            // console.log('ENTRAMOS A MENSAJES')
-            console.log('Mensaje:', message);
-            // setMsgList([...msgList, message]);
-            // console.log(msgList)
+            setMsgList([...msgList, message]);
         })
 
         return () => { socket.off("sendMessage"); }
@@ -25,7 +22,6 @@ export default function Chat () {
     
     const submit = (event) => {
         event.preventDefault();
-        console.log(msg)
         socket.emit('message', localStorage.username, msg, localStorage.teamName);
         setMsg("");
     }
@@ -33,11 +29,11 @@ export default function Chat () {
     return (
         <div>
             <div>
-                {msgList.map((m, i) => ( <div key={i}><div>{m.name}</div><div>{m.msg}</div></div> ))}
+                {msgList.map(m => ( <div key={msgList.indexOf(m)}>{m}</div> ))}
                 <div ref={divRef}></div>
             </div>
             <form onSubmit={submit}>
-                <input type="text" placeholder={'Mensaje...'} onChange={event => setMsg(event.target.value)} ></input>
+                <input value={msg} type="text" placeholder={'Mensaje...'} onChange={event => setMsg(event.target.value)} ></input>
             </form>
         </div>
     )

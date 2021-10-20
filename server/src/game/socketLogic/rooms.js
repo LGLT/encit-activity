@@ -49,8 +49,14 @@ exports = module.exports = function(io){
                 if(actualTeamName === teamName) return;
                 else {
                     teamsRooms.map(t => {
-                        if(t.name === actualTeamName) {t.teammates.splice(t.teammates.indexOf(username), 1); socket.leave(actualTeamName)}
-                        if(t.name === teamName) {t.teammates.push(username); io.to(0).emit('addTeamLocalStorage', t.name); socket.join(teamName);}
+                        if(t.name === actualTeamName) {
+                            t.teammates.splice(t.teammates.indexOf(username), 1); 
+                            socket.leave(actualTeamName)
+                        }
+                        if(t.name === teamName) {
+                            t.teammates.push(username); 
+                            io.to(0).emit('addTeamLocalStorage', t.name);
+                        }
                     })
                     io.to(0).emit('sendRooms', (teamsRooms));
                 }
@@ -60,12 +66,17 @@ exports = module.exports = function(io){
                     if(t.name === teamName){
                         t.teammates.push(username);
                         io.to(0).emit('addTeamLocalStorage', t.name);
-                        socket.join(t.name);
                     }
                     io.to(0).emit('sendRooms', (teamsRooms));
                 })
             }
         });
+
+
+        socket.on('roomSub', function (teamName) {
+            socket.join(teamName)
+        });
+
 
     });
 }

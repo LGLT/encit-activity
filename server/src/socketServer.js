@@ -17,7 +17,7 @@ var io = require("socket.io")(server, {
 var rooms = require("./game/socketLogic/rooms")(io)
 var gameLogic = require("./game/socketLogic/gameLogic")(io)
 var teamChat = require("./game/socketLogic/teamChat")(io)
-// var socketChatLobby = require("./socketChatLobby")(io)
+var timer = require("./game/socketLogic/timer")(io)
 
 require("reflect-metadata");
 
