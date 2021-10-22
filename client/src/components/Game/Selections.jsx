@@ -1,44 +1,51 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 
 import socket from '../socket/socket';
+import { saveAllSelections } from '../../redux/actions-types/saveAllSelectionsActions';
 
-export default function Selections () {
-    const [usersSelections, setUsersSelections] = useState([])
-    const [showResults, setShowResults] = useState(false)
+export default function Selections ({questionIndex}) {
+    const dispatch = useDispatch();
+
+    let allSelections = useSelector(store => store.saveAllSelections.allSelections);
 
     useEffect(() => {
-        socket.on('showSelectedOption', (selections) => {
-            setUsersSelections(selections)
-        })
-
-        socket.on('selectionsFinished', () => {
-            setShowResults(true)
-        })
+        if(parseInt(localStorage.questionIndex) === questionIndex) {
+            socket.on('showSelectedOption', (selections) => {
+                dispatch(saveAllSelections(selections))
+            });
     
+            socket.on('selectionsFinished', () => {
+                socket.emit('mostSelected', allSelections, localStorage.teamName);
+            });
+        }
+        return () => {socket.off("selectionsFinished"); socket.off("showSelectedOption");}
+    });
 
-    })
-
+    
     useEffect(() => {
-        socket.emit('checkAllSelections', usersSelections.length, localStorage.teamName)
-    }, [usersSelections])
+        if(parseInt(localStorage.questionIndex) === questionIndex) {
+            socket.emit('checkAllSelections', allSelections.length, localStorage.teamName)
+        }
+    }, [allSelections]);
 
     return (
         <div>
-            {console.log(usersSelections)}
-            {
-                usersSelections.length > 0 ?
-                    <div>
-                        {
-                        usersSelections.map(s => 
-                            <div key={usersSelections.indexOf(s)}>
-                                <p>{s.name} ha votado: {s.option}</p>
-                            </div>
-                        )
-                        }
-                    </div>
-                : null
-            }
-
+            <div>{console.log(allSelections)}
+                {
+                    allSelections.length > 0 ?
+                        <div>
+                            {
+                            allSelections.map(s => 
+                                <div key={allSelections.indexOf(s)}>
+                                    <p>{s.name} ha votado: {s.option}</p>
+                                </div>
+                            )
+                            }
+                        </div>
+                    : null
+                }
+            </div>
         </div>
     );
 

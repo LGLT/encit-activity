@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux'
 
 import socket from '../socket/socket'
 import { joinToTeam } from '../../redux/actions-types/joinToTeamActions';
+import { saveTimerHost } from '../../redux/actions-types/saveTimerHostActions';
 
 export default function TeamsList () {
     const dispatch = useDispatch();
@@ -28,13 +29,24 @@ export default function TeamsList () {
         socket.on('addTeamLocalStorage', (teamName) => {
             dispatch(joinToTeam(teamName));
         })
+
+        socket.on('saveTimerHost', (host) => {
+            console.log('ESTE ES EL HOST:', host)
+            dispatch(saveTimerHost(host))
+        })
+
+        return () => {
+            socket.off("sendRooms"); 
+            socket.off("addTeamLocalStorage");
+            socket.off("saveTimerHost");
+        }
+        
     })
 
 
     return (
         <div>
             <h6>Lista de equipos</h6>
-            {console.log('ROOMSDATA:', roomsData)}
             <div>
                 { roomsData.length > 0
                     ? 

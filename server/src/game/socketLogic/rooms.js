@@ -29,7 +29,7 @@ exports = module.exports = function(io){
                         }
                         if(t.name === teamName) {
                             t.teammates.push(username); 
-                            io.to(0).emit('addTeamLocalStorage', t.name);
+                            socket.emit('addTeamLocalStorage', t.name);
                         }
                     })
                     io.to(0).emit('sendRooms', (teamsRooms));
@@ -39,10 +39,10 @@ exports = module.exports = function(io){
                 teamsRooms.map(t => {
                     if(t.name === teamName){
                         t.teammates.push(username);
-                        io.to(0).emit('addTeamLocalStorage', t.name);
+                        socket.emit('addTeamLocalStorage', t.name);
                     }
-                    io.to(0).emit('sendRooms', (teamsRooms));
                 })
+                io.to(0).emit('sendRooms', (teamsRooms));
             }
         });
 

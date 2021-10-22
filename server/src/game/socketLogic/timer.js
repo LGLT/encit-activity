@@ -1,14 +1,18 @@
 let timeMinutes = 9;
 let timeSeconds = 59;
-
+let timerHost = [];
 let timeIsOver = []
 
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
 
-        // socket.on('roomSub', function (teamName) {
-        //     socket.join(teamName)
-        // });
+        socket.on('timerHost', function(host) {
+            if(timerHost.length === 0) {
+                timerHost.push(host)
+                console.log('TIMERHOST:', timerHost)
+                io.emit('saveTimerHost', host);
+            }
+        });
 
         //  Indicar que la cuenta regresiva ya ha comenzado.
         socket.on('startCount', function () {
@@ -20,10 +24,10 @@ exports = module.exports = function(io){
             if(timeSeconds === 0){
                 timeMinutes = timeMinutes - 1;
                 timeSeconds = 59; 
-                socket.emit('sendTime', timeMinutes, timeSeconds);
+                io.emit('sendTime', timeMinutes, timeSeconds);
             } else {
                 timeSeconds = timeSeconds - 1;
-                socket.emit('sendTime', timeMinutes, timeSeconds);
+                io.emit('sendTime', timeMinutes, timeSeconds);
             }
         });
         

@@ -6,13 +6,21 @@ import signUpReducer from "./signUpReducer";
 import joinToTeamReducer from "./joinToTeamReducer";
 import gameStartedReducer from "./gameStartedReducer";
 import selectedOptionReducer from "./selectedOptionReducer";
+import saveTimerHost from "./saveTimerHostReducer";
+import saveQuestionIndex from "./saveQuestionIndexReducer";
+import savePointsReducer from "./savePointsReducer";
+import saveAllSelections from "./saveAllSelectionsReducer";
 
 
 const rootReducer = combineReducers({
   signUpReducer,
   joinToTeamReducer,
   gameStartedReducer,
-  selectedOptionReducer
+  selectedOptionReducer,
+  saveTimerHost,
+  saveQuestionIndex,
+  savePointsReducer,
+  saveAllSelections
 });
 
 export default rootReducer;

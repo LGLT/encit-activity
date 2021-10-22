@@ -27,7 +27,7 @@ export default function Chat () {
     }
 
     return (
-        <div>
+        <div>{console.log('ENTRAMOS A CHAT')}
             <div>
                 {msgList.map(m => ( <div key={msgList.indexOf(m)}>{m}</div> ))}
                 <div ref={divRef}></div>

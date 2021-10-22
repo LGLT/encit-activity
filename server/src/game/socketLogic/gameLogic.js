@@ -73,12 +73,48 @@ exports = module.exports = function(io){
         });
 
         socket.on('checkAllSelections', function (num, teamName) {
-
+            console.log('NUM:', num, 'Veces entrado...')
             teamsRooms.map(t => t.name === teamName 
-                ? num === t.teammates.length ? socket.emit('selectionsFinished') : null
+                ? num === t.teammates.length ? io.to(teamName).emit('selectionsFinished') : null
                 : null
             )
         });
+
+        socket.on('mostSelected', function (selections, teamName) {
+            console.log('MOST SELECTED')
+            let results = [];
+            selections.map(s => results.push(s.option))
+
+            let mostSelected;
+            let timesSelected = 0;
+
+            for(let i = 0; i < results.length; i++) {
+                let acc = 0;
+                for(let j = 0; j < results.length; j++) {
+                    if(results[j] === results[i]) acc++;
+                }
+                if(acc > timesSelected) { timesSelected = acc; mostSelected = results[i] }
+                results[i]
+            }
+
+            io.to(teamName).emit('compareResult', mostSelected)
+        });
+
+        socket.on('nextQuestion', function (teamName, questionIndex) {
+            console.log('la siguiente pregunta es: ', questionIndex)
+            setTimeout(() => {
+                io.to(teamName).emit('changeQuestion', questionIndex);
+            }, 1500);
+        })
+
+        socket.on('cleanSelections', function(teamName) {
+            if(teamName === 'Ciclo hidrológico') selections.hidrologico = []
+            if(teamName === 'Ciclo del carbono') selections.carbono = []
+            if(teamName === 'Ciclo del nitrógeno') selections.nitrogeno = []
+            if(teamName === 'Ciclo del azufre') selections.azufre = []
+            if(teamName === 'Ciclo del fósforo') selections.fosforo = []
+            if(teamName === 'Ciclo del oxígeno') selections.oxigeno = []
+        })
 
     });
 }
