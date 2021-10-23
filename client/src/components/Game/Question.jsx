@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux'
+import styles from './styles/Question.module.css'
 
 import { selectedOption } from '../../redux/actions-types/selectedOptionActions';
 import { savePoints } from '../../redux/actions-types/savePointsActions';
@@ -35,15 +36,13 @@ export default function Question ({actual, questionIndex}) {
     }
 
     return (
-        <div>{console.log('QuestionIndex:', questionIndex, actual)}
-            <h2>{actual.text}</h2>
-            <h3>Respuesta correcta: {actual.answer}</h3>
-            <h4>Opciones: </h4>
-            <div>
+        <div className={styles.mainDiv}>
+            <h2 className={styles.questionTittle}>{actual.text}</h2>
+            <div className={styles.options}>
                 {
                     actual.options.map(o => 
                     <div key={actual.options.indexOf(o)}>
-                        <p onClick={(event) => selectOption(event)} style={{cursor: 'pointer'}}>{o}</p>
+                        <p onClick={(event) => selectOption(event)} className={styles.singleOption}>{o}</p>
                     </div>
                     )
                 }
@@ -54,7 +53,7 @@ export default function Question ({actual, questionIndex}) {
                     mostSelected 
                     ?   mostSelected === actual.answer 
                         ? <h3>LA RESPUESTA ES CORRECTA</h3>
-                        : <h3>La respeusta es incorrecta :(</h3>
+                        : <h3>La respuesta es incorrecta :(</h3>
                     :   null 
                 }
             </div>

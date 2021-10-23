@@ -1,0 +1,28 @@
+.mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.questionTittle {
+    text-decoration: overline;
+    font-weight: 200;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    gap: 5pc;
+    margin-top: 5%;
+}
+
+.singleOption {
+    cursor: pointer;
+    border: solid 1px #e0e0e0;
+    border-radius: 25px;
+    padding: 11px;
+    background: white;
+    font-weight: lighter;
+}

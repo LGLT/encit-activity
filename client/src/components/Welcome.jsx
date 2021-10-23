@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import FormUsername from './FormUsername';
 
+import styles from './styles/Welcome.module.css'
+
 export default function Welcome () {
 
     var store = useSelector(store => store);
@@ -10,12 +12,13 @@ export default function Welcome () {
     console.log('STORAGELOCA:', localStorage.username)
 
     return (
-        <div>
+        <div className={styles.mainDiv}>
             {localStorage.username ? <Redirect to="/lobby" /> : null}
-            
-            <h2>¡Bienvenido a [NAME]!</h2>
-            <p>Ingresa tu nombre y apellido, luego presiona ENTER</p>
-            <FormUsername />
+            <div className={styles.content}>
+                <h2>¡Bienvenido a [NAME]!</h2>
+                <p>Ingresa tu nombre y apellido, luego presiona ENTER</p>
+                <FormUsername />
+            </div>
         </div>
     );
 }

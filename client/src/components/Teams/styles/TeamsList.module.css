@@ -1,0 +1,85 @@
+.content {
+    text-align: center;
+}
+
+.teamsList {
+    display: flex;
+    gap: 3pc;
+}
+
+
+/* COLOR DE FONDO EN TARJETA DEPENDIENDO DEL EQUIPO */
+/* ##################################################### */
+.teamTittle0 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #a2e0ff;
+}
+.teamTittle1 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #a2ffa5;
+}
+.teamTittle2 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #feffa2;
+}
+.teamTittle3 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffc9a2;
+}
+.teamTittle4 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffa2a2;
+}
+.teamTittle5 {
+    cursor: pointer;
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffa2e7;
+}
+/* ##################################################### */
+/* ##################################################### */
+
+.players {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    border-radius: 0 0 10px 10px;
+    padding-top: 1px;
+    margin-top: -6px;
+    position: relative;
+    z-index: -1;
+    background-color: #fcfcfc;
+}
+
+.p_actualPlayers {
+    font-variant: all-petite-caps;
+    font-weight: 100;
+}

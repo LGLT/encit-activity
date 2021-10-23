@@ -14,10 +14,11 @@ var io = require("socket.io")(server, {
     }
 });
 
-var rooms = require("./game/socketLogic/rooms")(io)
-var gameLogic = require("./game/socketLogic/gameLogic")(io)
-var teamChat = require("./game/socketLogic/teamChat")(io)
-var timer = require("./game/socketLogic/timer")(io)
+var rooms = require("./game/socketLogic/rooms")(io);
+var gameLogic = require("./game/socketLogic/gameLogic")(io);
+var teamChat = require("./game/socketLogic/teamChat")(io);
+var timer = require("./game/socketLogic/timer")(io);
+var lobbyChat = require("./game/socketLogic/lobbyChat")(io);
 
 require("reflect-metadata");
 

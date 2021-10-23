@@ -11,7 +11,7 @@ export default function Points () {
 
     return (
         <div>{console.log(points)}
-            <h2>Puntos del equipo: {localStorage.totalPoints ? localStorage.totalPoints : 0}</h2>
+            <p>Puntos del equipo: {localStorage.totalPoints ? localStorage.totalPoints : 0}</p>
         </div>
     );
 

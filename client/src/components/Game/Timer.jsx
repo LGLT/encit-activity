@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux'
+import styles from './styles/Timer.module.css'
 
 import { gameStarted } from '../../redux/actions-types/gameStartedActions';
 import { saveTimerHost } from '../../redux/actions-types/saveTimerHostActions';
@@ -53,9 +54,9 @@ export default function Timer () {
     })
 
     return (
-        <div>
-            <h1>Timer</h1>
-            <h1>{minutes}:{seconds}</h1>
+        <div className={styles.mainDiv}>
+            <p>Tiempo restante:</p>
+            <p>{minutes}:{seconds}</p>
         </div>
     );
 }

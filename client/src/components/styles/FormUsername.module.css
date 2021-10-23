@@ -1,0 +1,18 @@
+.form {
+    display: flex;
+    place-content: center;
+}
+
+.input{
+    border: solid;
+    border-width: 2px;
+    border-color: #90d2e6;
+    border-radius: 13px;
+    padding: 3% 10% 3% 10%;
+    text-align: center;
+}
+
+.input:focus {
+    outline: none !important;
+    border-color: #14a4cf
+}

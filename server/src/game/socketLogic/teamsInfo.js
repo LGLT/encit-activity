@@ -2,26 +2,32 @@ exports = module.exports = teamsRooms =
 [
     {
         name: 'Ciclo hidrológico',
-        teammates: []
+        teammates: [],
+        score: 0
     },
     {
         name: 'Ciclo del carbono',
-        teammates: []
+        teammates: [],
+        score: 0
     },
     {
         name: 'Ciclo del nitrógeno',
-        teammates: []
+        teammates: [],
+        score: 0
     },
     {
         name: 'Ciclo del azufre',
-        teammates: []
+        teammates: [],
+        score: 0
     },
     {
         name: 'Ciclo del fósforo',
-        teammates: []
+        teammates: [],
+        score: 0
     },
     {
         name: 'Ciclo del oxígeno',
-        teammates: []
+        teammates: [],
+        score: 0
     },
 ]

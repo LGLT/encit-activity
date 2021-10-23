@@ -7,6 +7,7 @@ import { saveAllSelections } from '../../redux/actions-types/saveAllSelectionsAc
 
 import socket from '../socket/socket';
 import Question from './Question';
+import Results from './Results';
 
 export default function Questions () {
 
@@ -44,7 +45,6 @@ export default function Questions () {
 
     return (
         <div>
-            Preguntas
             {
                 questions
                 ?   questions.map(q =>
@@ -58,7 +58,13 @@ export default function Questions () {
                     )
                 : null
             }
-            {console.log('TENEMOS QUE RERENDERIZAR')}
+            <div>
+                {
+                    localStorage.questionIndex > 4
+                    ? <Results />
+                    : null
+                }
+            </div>
         </div>
     );
 

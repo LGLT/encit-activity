@@ -116,6 +116,15 @@ exports = module.exports = function(io){
             if(teamName === 'Ciclo del oxígeno') selections.oxigeno = []
         })
 
+        socket.on('bringAllTeamsScore', function(score, teamName) {
+            let allScores = [];
+            teamsRooms.map(t => {
+                if(t.name === teamName) t.score === parseInt(score) ? null : t.score = parseInt(score);
+                allScores.push({team: t.name, score: t.score})
+            })
+            io.emit('sendAllTeamsScore', allScores)
+        })
+
     });
 }
     

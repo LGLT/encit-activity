@@ -9,7 +9,6 @@ import store from './redux/store/index'
 
 import './index.css';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
