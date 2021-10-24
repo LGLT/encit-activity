@@ -16,7 +16,7 @@ export default function Game () {
     const roomSub = () => { socket.emit('roomSub', localStorage.teamName) }
 
     useEffect(() => {
-
+        socket.emit('joinToGame')
     }, [])
 
     return (
@@ -28,9 +28,7 @@ export default function Game () {
             </div>
             <div className={styles.questionSection}>
                 <Questions />
-                <div style={localStorage.questionIndex > 4 ? {display:"none"} : null}>
-                    <Chat />
-                </div>
+                <Chat />
             </div>
             <div className={
                 localStorage.teamName === 'Ciclo hidrológico' ? styles.circleEffect1 :

@@ -8,7 +8,7 @@ export default function Lobby () {
     return (
         <div>
             <div className={styles.content}>
-                <h2>¡Bienvenido, {localStorage.username}!</h2>
+                <h2>¡Bienvenido(a), {localStorage.username}!</h2>
                 <div className={styles.info}>
                     <p>El juego está por comenzar, ¡elige un equipo!</p>
                     <TeamsList />

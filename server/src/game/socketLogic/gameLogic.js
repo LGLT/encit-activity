@@ -16,8 +16,14 @@ let selections = {
     oxigeno: []
 }
 
+let usersFinished = [];
+
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
+
+        socket.on('joinToGame', function () {
+            socket.join('game');
+        });
 
         socket.on('bringQuestions', function (teamName) {
             let questions = [];
@@ -124,6 +130,22 @@ exports = module.exports = function(io){
             })
             io.emit('sendAllTeamsScore', allScores)
         })
+
+        socket.on('saveFinished', function () {
+            usersFinished.push(socket.id);
+            if(usersFinished.length === io.sockets.adapter.rooms.get('game').size) {
+                let highScoreTeams = []
+                let highScore = 0;
+
+                teamsRooms.map(t => {
+                    if(t.score > highScore) {
+                        highScore = t.score;
+                        highScoreTeams.push(t.name)
+                    }
+                })
+                socket.emit('endGame', highScoreTeams);
+            } 
+        });
 
     });
 }

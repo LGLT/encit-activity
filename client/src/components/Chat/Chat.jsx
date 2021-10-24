@@ -9,6 +9,7 @@ export default function Chat ({lobby}) {
 
     const [msg, setMsg] = useState('');
     const [msgList, setMsgList] = useState([])
+    const [hide, setHide] = useState(false)
 
     useEffect(() => {
         if(lobby) socket.emit('joinToChatLobby');
@@ -19,12 +20,23 @@ export default function Chat ({lobby}) {
             setMsgList([...msgList, message]);
         })
 
-        return () => { socket.off("sendMessage"); }
+        socket.on('sendAllTeamsScore', () => {
+            setHide(true)
+        })
+
+        return () => { 
+            socket.off("sendMessage");
+            socket.off('sendAllTeamsScore') 
+        }
     }, [msgList])
 
     useEffect(() => {
         divRef.current.scrollIntoView({behavior: 'smooth'});
     })
+
+    useEffect(() => {
+        
+    }, [hide])
     
     const submit = (event) => {
         event.preventDefault();
@@ -34,7 +46,10 @@ export default function Chat ({lobby}) {
     }
 
     return (
-        <div className={lobby ? styles.lobbyMainDiv : styles.mainDiv}>
+        <div 
+            className={lobby ? styles.lobbyMainDiv : styles.mainDiv} 
+            style={parseInt(localStorage.questionIndex) > 4 ? {display: "none"} : null}>
+
             <div className={lobby ? styles.lobbyChat : styles.chat}>
                 {msgList.map(m => ( 
                     <div key={msgList.indexOf(m)} className={lobby ? styles.lobbyMsg : styles.msg}>

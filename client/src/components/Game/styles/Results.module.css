@@ -1,0 +1,10 @@
+.results {
+    display: flex;
+    gap: 3pc;
+}
+
+.teamResult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
