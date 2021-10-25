@@ -1,7 +1,16 @@
 import { SAVE_QUESTION_INDEX } from '../actions/index';
 
 export const saveQuestionIndex = (index) => {
-  localStorage.setItem('questionIndex', index);
+  // if(localStorage.questionIndex && index !== 0){} 
+  // else
+
+  if(localStorage.questionIndex){
+    if(index === 0) {console.log('HAY REINICIO')}
+    else localStorage.setItem('questionIndex', index);
+  }
+  else localStorage.setItem('questionIndex', index);
+
+  console.log(index, 'ES EL INDEXX')
 
   return {
     type: SAVE_QUESTION_INDEX, 

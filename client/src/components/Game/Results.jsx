@@ -30,13 +30,23 @@ export default function Results () {
     })
 
     return (
-        <div>
+        <div className={styles.mainDiv}>
             <p style={{textAlign: "center"}}>Resultados actuales</p>
             <div className={styles.results}>
                 {
                     scores.length > 0 
                     ? scores.map(s => 
-                        <div key={scores.indexOf(s)} className={styles.teamResult}>
+                        <div 
+                            key={scores.indexOf(s)} 
+                            className={
+                                scores.indexOf(s) === 0 ? styles.teamTittle0 :
+                                scores.indexOf(s) === 1 ? styles.teamTittle1 : 
+                                scores.indexOf(s) === 2 ? styles.teamTittle2 : 
+                                scores.indexOf(s) === 3 ? styles.teamTittle3 : 
+                                scores.indexOf(s) === 4 ? styles.teamTittle4 : 
+                                scores.indexOf(s) === 5 ? styles.teamTittle5 : null
+                            }
+                        >
                             <h3>{s.team}:</h3>
                             <h3>{s.score} puntos</h3>
                         </div>
@@ -45,11 +55,12 @@ export default function Results () {
                 }
             </div>
             <div>
-                <p>Ganadores:</p>
                 {
-                    winner.length > 0 ?
-                    winner.map(w => <h3 key={winner.indexOf(w)}>{w}</h3>)
-                    : null
+                    winner.length > 0 &&
+                    <div className={styles.winnersDiv}>
+                        <p>Ganadores:</p>
+                        {winner.map(w => <h3 key={winner.indexOf(w)}>{w}</h3>)}
+                    </div>
                 }
             </div>
         </div>

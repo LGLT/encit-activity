@@ -5,6 +5,7 @@ import styles from './styles/Question.module.css'
 import { selectedOption } from '../../redux/actions-types/selectedOptionActions';
 import { savePoints } from '../../redux/actions-types/savePointsActions';
 
+import Modal from '../Modal'
 import Selections from './Selections';
 import socket from '../socket/socket';
 
@@ -12,12 +13,14 @@ export default function Question ({actual, questionIndex}) {
     const dispatch = useDispatch();
 
     const [mostSelected, setMostSelected] = useState(undefined);
+    const [modalState, setModalState] = useState(false)
 
     useEffect(() => {
         if(parseInt(localStorage.questionIndex) === questionIndex) {
             socket.on('compareResult', (mostSelected) => {
                 if(mostSelected === actual.answer) dispatch(savePoints(localStorage.totalPoints ? parseInt(localStorage.totalPoints) + 1 : 1)) 
-                setMostSelected(mostSelected)
+                setMostSelected(mostSelected);
+                setModalState(!modalState)
                 socket.emit('nextQuestion', localStorage.teamName, parseInt(localStorage.questionIndex) + 1)
             });
         }
@@ -52,8 +55,16 @@ export default function Question ({actual, questionIndex}) {
                 {
                     mostSelected 
                     ?   mostSelected === actual.answer 
-                        ? <h3>LA RESPUESTA ES CORRECTA</h3>
-                        : <h3>La respuesta es incorrecta :(</h3>
+                        ? 
+                        <Modal state={modalState} setState={setModalState}> 
+                            <h1>¡Correcto!</h1>
+                            <p>¡Felicidades! La opción votada es correcta.</p>
+                        </Modal>
+                        : 
+                        <Modal state={modalState} setState={setModalState}> 
+                            <h1>¡Estuvo cerca!</h1>
+                            <p>Lamentablemente, la opción votada es incorrecta.</p>
+                        </Modal>
                     :   null 
                 }
             </div>

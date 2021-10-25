@@ -49,7 +49,6 @@ export default function Questions () {
                 questions
                 ?   questions.map(q =>
                     <div key={questions.indexOf(q)} style={parseInt(localStorage.questionIndex) === questions.indexOf(q) ? null : {display: "none"}}>
-                    {/* // <div key={questions.indexOf(q)} > */}
                         <Question 
                             actual={questions[questions.indexOf(q)].data} 
                             questionIndex={questions.indexOf(q)}
@@ -59,11 +58,7 @@ export default function Questions () {
                 : null
             }
             <div>
-                {
-                    localStorage.questionIndex > 4
-                    ? <Results />
-                    : null
-                }
+                {localStorage.questionIndex > 4 && <Results />}
             </div>
         </div>
     );

@@ -6,10 +6,10 @@
 .input{
     border: solid;
     border-width: 2px;
-    border-color: #90d2e6;
-    border-radius: 13px;
-    padding: 3% 10% 3% 10%;
+    border-color: #d0d0d0;
+    border-radius: 3px;
     text-align: center;
+    height: 30px;
 }
 
 .input:focus {

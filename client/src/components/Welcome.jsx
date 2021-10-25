@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import FormUsername from './FormUsername';
@@ -14,11 +14,14 @@ export default function Welcome () {
     return (
         <div className={styles.mainDiv}>
             {localStorage.username ? <Redirect to="/lobby" /> : null}
-            <div className={styles.content}>
-                <h2>¡Bienvenido a [NAME]!</h2>
-                <p>Ingresa tu nombre y apellido, luego presiona ENTER</p>
-                <FormUsername />
+            <div className={styles.contentBox}>
+                <div className={styles.content}>
+                    <h2>¡Bienvenido a [NAME]!</h2>
+                    <p>Ingresa tu nombre y apellido, luego presiona ENTER</p>
+                    <FormUsername />
+                </div>
             </div>
+            <div className={styles.end}> </div>
         </div>
     );
 }

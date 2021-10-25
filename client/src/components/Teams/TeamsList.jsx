@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux'
 import styles from './styles/TeamsList.module.css'
 
 import socket from '../socket/socket'
+import { gameStarted } from '../../redux/actions-types/gameStartedActions';
 import { joinToTeam } from '../../redux/actions-types/joinToTeamActions';
 import { saveTimerHost } from '../../redux/actions-types/saveTimerHostActions';
 
@@ -16,6 +17,11 @@ export default function TeamsList () {
         let teamName = event.target.innerText;
         console.log(teamName);
         socket.emit('joinToTeam', teamName, localStorage.username, localStorage.teamName);
+    }
+    
+    const startGame = () => {
+        dispatch(gameStarted(true))
+        return <Redirect to="/game" />
     }
 
     useEffect(() => {
@@ -82,13 +88,19 @@ export default function TeamsList () {
                     }
                 </div>
                 {   roomsData.length > 0 ?
-                        roomsData[0].teammates.length === 1 && 
-                        roomsData[1].teammates.length === 1 && 
-                        roomsData[2].teammates.length === 1 && 
-                        roomsData[3].teammates.length === 1 && 
-                        roomsData[4].teammates.length === 1 && 
-                        roomsData[5].teammates.length === 1 
-                        ? <Redirect to="/game" />
+                        // roomsData[0].teammates.length === 1 && 
+                        // roomsData[1].teammates.length === 1 && 
+                        // roomsData[2].teammates.length === 1 && 
+                        // roomsData[3].teammates.length === 1 && 
+                        // roomsData[4].teammates.length === 1 && 
+                        // roomsData[5].teammates.length === 1
+                        roomsData[0].teammates.length === 1 || 
+                        roomsData[1].teammates.length === 1 || 
+                        roomsData[2].teammates.length === 1 || 
+                        roomsData[3].teammates.length === 1 || 
+                        roomsData[4].teammates.length === 1 || 
+                        roomsData[5].teammates.length === 1
+                        ? startGame()
                         : null
                     : null
                 }

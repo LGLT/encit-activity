@@ -110,7 +110,7 @@ exports = module.exports = function(io){
             console.log('la siguiente pregunta es: ', questionIndex)
             setTimeout(() => {
                 io.to(teamName).emit('changeQuestion', questionIndex);
-            }, 1500);
+            }, 2000);
         })
 
         socket.on('cleanSelections', function(teamName) {
@@ -133,7 +133,7 @@ exports = module.exports = function(io){
 
         socket.on('saveFinished', function () {
             usersFinished.push(socket.id);
-            if(usersFinished.length === io.sockets.adapter.rooms.get('game').size) {
+            if(io.sockets.adapter.rooms.get('game') && usersFinished.length === io.sockets.adapter.rooms.get('game').size) {
                 let highScoreTeams = []
                 let highScore = 0;
 
@@ -143,7 +143,7 @@ exports = module.exports = function(io){
                         highScoreTeams.push(t.name)
                     }
                 })
-                socket.emit('endGame', highScoreTeams);
+                io.emit('endGame', highScoreTeams);
             } 
         });
 

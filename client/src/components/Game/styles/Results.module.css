@@ -1,3 +1,7 @@
+.mainDiv {
+    margin-top: 4%;
+}
+
 .results {
     display: flex;
     gap: 3pc;
@@ -7,4 +11,70 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* COLOR DE FONDO EN TARJETA DEPENDIENDO DEL EQUIPO */
+/* ##################################################### */
+.teamTittle0 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #a2e0ff;
+    text-align: center;
+}
+.teamTittle1 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #a2ffa5;
+    text-align: center;
+}
+.teamTittle2 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #feffa2;
+    text-align: center;
+}
+.teamTittle3 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffc9a2;
+    text-align: center;
+}
+.teamTittle4 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffa2a2;
+    text-align: center;
+}
+.teamTittle5 {
+    cursor: pointer;
+    border: solid 1px#faf6f6;
+    border-radius: 10px;
+    padding: 15px 30px 15px 30px;
+    margin: 0;
+    background: #ffa2e7;
+    text-align: center;
+}
+/* ##################################################### */
+/* ##################################################### */
+
+.winnersDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
 }
