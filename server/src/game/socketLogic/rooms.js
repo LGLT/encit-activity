@@ -13,7 +13,8 @@ exports = module.exports = function(io){
         //  Mandar la información actual de los rooms.
         socket.on('bringRooms', function () {
             socket.join(0);
-            io.to(0).emit('sendRooms', (teamsRooms)); 
+            if(!gameInCourse) io.to(0).emit('sendRooms', (teamsRooms)); 
+            else io.to(0).emit('gameInCourse')
         })
         
         //  Unir un jugador a un equipo.
@@ -49,12 +50,12 @@ exports = module.exports = function(io){
 
         socket.on('roomSub', function (teamName) {
             socket.join(teamName)
+            if(!gameInCourse) gameInCourse = true;
         });
 
-        // socket.on('teammates', function (teamName) {
-        //     teamsRooms.map(t => t.name === teamName ? console.log(t.teammates) : null)
-        // })
-
+        socket.on('restartGame', function (teamName) {
+            if(gameInCourse) gameInCourse = false;
+        });
     });
 }
 

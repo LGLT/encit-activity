@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Redirect} from 'react-router-dom'
+import {Redirect, useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import styles from './styles/TeamsList.module.css'
 
@@ -10,6 +10,7 @@ import { saveTimerHost } from '../../redux/actions-types/saveTimerHostActions';
 
 export default function TeamsList () {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [roomsData, setRoomsData] = useState([])
 
@@ -22,6 +23,11 @@ export default function TeamsList () {
     const startGame = () => {
         dispatch(gameStarted(true))
         return <Redirect to="/game" />
+    }
+
+    const startGameAdmin = (event) => {
+        event.preventDefault();
+        if(event.target.nodeName === 'BUTTON') socket.emit('BacteritasAdmin')
     }
 
     useEffect(() => {
@@ -42,10 +48,21 @@ export default function TeamsList () {
             dispatch(saveTimerHost(host))
         })
 
+        socket.on('gameInCourse', () => {
+            alert('Ya hay una partida en curso. Vuelve más tarde.')
+        })
+
+        socket.on('redirectToGame', () => {
+            dispatch(gameStarted(true));
+            return history.push('/game')
+        })
+
         return () => {
             socket.off("sendRooms"); 
             socket.off("addTeamLocalStorage");
             socket.off("saveTimerHost");
+            socket.off("gameInCourse");
+            socket.off("redirectToGame");
         }
         
     })
@@ -87,6 +104,10 @@ export default function TeamsList () {
                         : null
                     }
                 </div>
+                {
+                    localStorage.username === 'BacteritasAdmin'
+                    && <button onClick={(event) => {startGameAdmin(event)}}>Start game</button>
+                }
                 {   roomsData.length > 0 ?
                         // roomsData[0].teammates.length === 1 && 
                         // roomsData[1].teammates.length === 1 && 
@@ -94,12 +115,12 @@ export default function TeamsList () {
                         // roomsData[3].teammates.length === 1 && 
                         // roomsData[4].teammates.length === 1 && 
                         // roomsData[5].teammates.length === 1
-                        roomsData[0].teammates.length === 1 || 
-                        roomsData[1].teammates.length === 1 || 
-                        roomsData[2].teammates.length === 1 || 
-                        roomsData[3].teammates.length === 1 || 
-                        roomsData[4].teammates.length === 1 || 
-                        roomsData[5].teammates.length === 1
+                        roomsData[0].teammates.length === 5 || 
+                        roomsData[1].teammates.length === 5 || 
+                        roomsData[2].teammates.length === 5 || 
+                        roomsData[3].teammates.length === 5 || 
+                        roomsData[4].teammates.length === 5 || 
+                        roomsData[5].teammates.length === 5
                         ? startGame()
                         : null
                     : null

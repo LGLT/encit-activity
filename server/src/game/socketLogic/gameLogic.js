@@ -128,6 +128,7 @@ exports = module.exports = function(io){
                 if(t.name === teamName) t.score === parseInt(score) ? null : t.score = parseInt(score);
                 allScores.push({team: t.name, score: t.score})
             })
+            console.log('SCORES:', allScores)
             io.emit('sendAllTeamsScore', allScores)
         })
 
@@ -146,6 +147,34 @@ exports = module.exports = function(io){
                 io.emit('endGame', highScoreTeams);
             } 
         });
+
+        socket.on('restartGame', function (teamName) {
+            console.log('RESTARGAME')
+            socket.leave(teamName);
+            socket.leave('game');
+
+            if(selections.azufre.length > 0) selections.azufre = [];
+            if(selections.carbono.length > 0) selections.carbono = [];
+            if(selections.hidrologico.length > 0) selections.hidrologico = [];
+            if(selections.nitrogeno.length > 0) selections.nitrogeno = [];
+            if(selections.oxigeno.length > 0) selections.oxigeno = [];
+            if(selections.fosforo.length > 0) selections.fosforo = [];
+
+            usersFinished = []
+
+            teamsRooms.map(t => {
+                if(t.teammates.length > 0) t.teammates = [];
+                if(t.score > 0) t.score = 0;
+            })
+
+            // setTimeout(() => {
+                socket.emit('cleanLocalStorage');
+            // }, 7500);
+        });
+
+        socket.on('BacteritasAdmin', function() {
+            io.to(0).emit('redirectToGame')
+        })
 
     });
 }
