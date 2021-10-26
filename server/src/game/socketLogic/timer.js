@@ -31,6 +31,11 @@ exports = module.exports = function(io){
             }
         });
         
+        socket.on('restartGame', function () {
+            timeMinutes = 9;
+            timeSeconds = 59;
+            timerHost = [];
+        });
 
     });
 }

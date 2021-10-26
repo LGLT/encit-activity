@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles/Results.module.css'
+import {Redirect} from 'react-router-dom'
 
 import socket from '../socket/socket';
 
@@ -7,6 +8,7 @@ export default function Results () {
 
     const [scores, setScores] = useState([])
     const [winner, setWinner] = useState([])
+    const [redirect, setRedirect] = useState(false)
 
     useEffect(() => {
         socket.emit('bringAllTeamsScore', localStorage.totalPoints, localStorage.teamName)
@@ -17,17 +19,32 @@ export default function Results () {
         socket.on('sendAllTeamsScore', (allScores) => {
             console.log(allScores)
             setScores(allScores)
-        })
+        });
 
         socket.on('endGame', (winner) => {
             setWinner(winner)
-        })
+        });
+
+        socket.on('cleanLocalStorage', () => {
+            localStorage.removeItem('timerHost');
+            localStorage.removeItem('questionIndex');
+            localStorage.removeItem('gameStarted');
+            localStorage.removeItem('teamName');
+            localStorage.removeItem('totalPoints');
+            localStorage.removeItem('selectedOption');
+            setRedirect(true)
+        });
 
         return () => { 
             socket.off('sendAllTeamsScore'); 
             socket.off('endGame')
         }
     })
+
+    const restartGame = () => {
+        socket.emit('restartGame');
+        return () => socket.off('restartGame', localStorage.teamName);
+    }
 
     return (
         <div className={styles.mainDiv}>
@@ -60,9 +77,15 @@ export default function Results () {
                     <div className={styles.winnersDiv}>
                         <p>Ganadores:</p>
                         {winner.map(w => <h3 key={winner.indexOf(w)}>{w}</h3>)}
+                        { 
+                        setTimeout(() => {
+                            restartGame();
+                        }, 5000)
+                        }
                     </div>
                 }
             </div>
+            {redirect && <Redirect to='/'/>}
         </div>
     )
 }
