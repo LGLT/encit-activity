@@ -5,7 +5,7 @@ var http = require('http');
 var appSocket = express();
 var server = http.createServer(appSocket);
 
-var io = require("socket.io")('http://159.223.113.224', {
+var io = require("socket.io")(server, {
     path: "/socketio",
     cors: {
         origin: "*",
