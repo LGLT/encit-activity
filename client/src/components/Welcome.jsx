@@ -16,7 +16,7 @@ export default function Welcome () {
             {localStorage.username ? <Redirect to="/lobby" /> : null}
             <div className={styles.contentBox}>
                 <div className={styles.content}>
-                    <h2>¡Bienvenido a [NAME]!</h2>
+                    <h2>¡Bienvenido a Bacteritas!</h2>
                     <p>Ingresa tu nombre y apellido, luego presiona ENTER</p>
                     <FormUsername />
                 </div>

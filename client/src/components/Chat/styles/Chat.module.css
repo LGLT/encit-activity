@@ -77,9 +77,31 @@
     border: solid 2px #d0d0d0;
     border-radius: 3px;
     height: 20px;
+    margin-bottom: 10%;
 }
 
 input {
     width: 25pc;
 }
 
+
+
+@media screen and (max-width: 768px) {
+    
+    .lobbyChat {
+        width: 30pc;
+        min-height: 35vh;
+        max-height: 35vh;
+    }
+
+    .chat {
+        width: 30pc;
+        min-height: 35vh;
+        max-height: 35vh;
+        margin-bottom: .5em;
+        overflow: scroll;
+        border: 2px solid black;
+        background-color: rgba(255, 255, 255, 0.6);
+        font-size: 15px;
+    }
+}

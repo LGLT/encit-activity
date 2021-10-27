@@ -78,3 +78,23 @@
     align-items: center;
     margin-top: 5%;
 }
+
+
+
+@media screen and (max-width: 1340px) {
+    .results {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    
+}
+
+@media screen and (max-width: 768px) {
+    
+ }
+
+ @media screen and (max-width: 700px) {
+    
+}

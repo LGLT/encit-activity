@@ -9,15 +9,20 @@ export default function Results () {
     const [scores, setScores] = useState([])
     const [winner, setWinner] = useState([])
     const [redirect, setRedirect] = useState(false)
+    const [onceRestart, setOnceRestart] = useState(0);
 
     useEffect(() => {
         socket.emit('bringAllTeamsScore', localStorage.totalPoints, localStorage.teamName)
         socket.emit('saveFinished');
+        
+        return () => {
+            socket.off('bringAllTeamsScore');
+            socket.off('saveFinished');
+        }
     }, [])
 
     useEffect(() => {
         socket.on('sendAllTeamsScore', (allScores) => {
-            console.log(allScores)
             setScores(allScores)
         });
 
@@ -37,13 +42,22 @@ export default function Results () {
 
         return () => { 
             socket.off('sendAllTeamsScore'); 
-            socket.off('endGame')
+            socket.off('endGame');
+            socket.off('cleanLocalStorage');
         }
     })
 
     const restartGame = () => {
-        socket.emit('restartGame');
-        return () => socket.off('restartGame', localStorage.teamName);
+        if(onceRestart === 0) {
+            setOnceRestart(1)
+            setTimeout(() => {
+                socket.emit('restartGame', localStorage.teamName);
+            }, 5000);
+        }
+
+        return () => {
+            socket.off('restartGame');
+        }
     }
 
     return (
@@ -76,12 +90,8 @@ export default function Results () {
                     winner.length > 0 &&
                     <div className={styles.winnersDiv}>
                         <p>Ganadores:</p>
-                        {winner.map(w => <h3 key={winner.indexOf(w)}>{w}</h3>)}
-                        { 
-                        setTimeout(() => {
-                            restartGame();
-                        }, 5000)
-                        }
+                        {winner.map(w => <h2 key={winner.indexOf(w)}>{w}</h2>)}
+                        { restartGame() }
                     </div>
                 }
             </div>

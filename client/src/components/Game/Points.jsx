@@ -10,7 +10,7 @@ export default function Points () {
     }, [points])
 
     return (
-        <div>{console.log(points)}
+        <div>
             <p>Puntos del equipo: {localStorage.totalPoints ? localStorage.totalPoints : 0}</p>
         </div>
     );

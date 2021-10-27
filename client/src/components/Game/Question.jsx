@@ -23,8 +23,11 @@ export default function Question ({actual, questionIndex}) {
                 setModalState(!modalState)
                 socket.emit('nextQuestion', localStorage.teamName, parseInt(localStorage.questionIndex) + 1)
             });
+            return () => {
+                socket.off("compareResult");
+                socket.off('nextQuestion');
+            }
         }
-        return () => {socket.off("compareResult")}
     })
     
     const selectOption = (event) => {
@@ -32,10 +35,10 @@ export default function Question ({actual, questionIndex}) {
         if(!localStorage.selectedOption || localStorage.selectedOption === 'false'){
             dispatch(selectedOption(true))
             socket.emit('selectedOption', localStorage.username, localStorage.teamName, event.target.innerText);
-            socket.emit('teammates', localStorage.teamName)
         }
-        else return
-        return () => {socket.off('selectedOption'); socket.off('teammates');}
+        return () => {
+            socket.off('selectedOption');
+        }
     }
 
     return (
@@ -51,10 +54,10 @@ export default function Question ({actual, questionIndex}) {
                 }
             </div>
             <Selections questionIndex={questionIndex} />
-            <div>
+            <div>{mostSelected ? console.log('MOST SELECTED', mostSelected) :console.log(questionIndex)}
                 {
-                    mostSelected 
-                    ?   mostSelected === actual.answer 
+                    mostSelected &&   
+                        mostSelected === actual.answer 
                         ? 
                         <Modal state={modalState} setState={setModalState}> 
                             <h1>¡Correcto!</h1>
@@ -65,7 +68,6 @@ export default function Question ({actual, questionIndex}) {
                             <h1>¡Estuvo cerca!</h1>
                             <p>Lamentablemente, la opción votada es incorrecta.</p>
                         </Modal>
-                    :   null 
                 }
             </div>
         </div>

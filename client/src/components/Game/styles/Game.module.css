@@ -135,3 +135,100 @@
 }
 /* ##################################################### */
 /* ##################################################### */
+
+
+@media screen and (max-width: 1340px) {
+    .circleEffect1 {
+        height: 31pc;
+    }
+    .circleEffect2 {
+        height: 31pc;
+    }
+    .circleEffect3 {
+        height: 31pc;
+    }
+    .circleEffect4 {
+        height: 31pc;
+    }
+    .circleEffect5 {
+        height: 31pc;
+    }
+    .circleEffect6 {
+        height: 31pc;
+    }
+
+    .circleEffect1_2 {
+        width: 125pc;
+        height: 42pc;
+        margin-top: -45%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .circleEffect1 {
+        height: 27pc;
+    }
+    .circleEffect2 {
+        height: 31pc;
+    }
+    .circleEffect3 {
+        height: 31pc;
+    }
+    .circleEffect4 {
+        height: 31pc;
+    }
+    .circleEffect5 {
+        height: 31pc;
+    }
+    .circleEffect6 {
+        height: 31pc;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .circleEffect1 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+    .circleEffect2 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+    .circleEffect3 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+    .circleEffect4 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+    .circleEffect5 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+    .circleEffect6 {
+        height: 35pc;
+        margin-top: -58%;
+    }
+ }
+
+ @media screen and (max-width: 700px) {
+    .circleEffect1 {
+        height: 32pc;
+    }
+    .circleEffect2 {
+        height: 32pc;
+    }
+    .circleEffect3 {
+        height: 32pc;
+    }
+    .circleEffect4 {
+        height: 32pc;
+    }
+    .circleEffect5 {
+        height: 32pc;
+    }
+    .circleEffect6 {
+        height: 32pc;
+    }
+}
