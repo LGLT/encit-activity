@@ -19,7 +19,11 @@ export default function Selections ({questionIndex}) {
                 socket.emit('mostSelected', allSelections, localStorage.teamName);
             });
         }
-        return () => {socket.off("selectionsFinished"); socket.off("showSelectedOption");}
+        return () => {
+            socket.off("showSelectedOption");
+            socket.off("selectionsFinished");
+            socket.off('mostSelected'); 
+        }
     });
 
     
@@ -27,11 +31,15 @@ export default function Selections ({questionIndex}) {
         if(parseInt(localStorage.questionIndex) === questionIndex) {
             socket.emit('checkAllSelections', allSelections.length, localStorage.teamName)
         }
+
+        return () => {
+            socket.off('checkAllSelections');
+        }
     }, [allSelections]);
 
     return (
         <div>
-            <div>{console.log(allSelections)}
+            <div>
                 {
                     allSelections.length > 0 ?
                         <div>

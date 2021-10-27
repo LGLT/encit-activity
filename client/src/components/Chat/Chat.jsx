@@ -13,6 +13,9 @@ export default function Chat ({lobby}) {
 
     useEffect(() => {
         if(lobby) socket.emit('joinToChatLobby');
+        return () => {
+            socket.off('joinToChatLobby')
+        }
     }, [lobby])
 
     useEffect(() => {
@@ -43,6 +46,10 @@ export default function Chat ({lobby}) {
         if(lobby) socket.emit('messageLobby', localStorage.username, msg, localStorage.teamName);
         else socket.emit('message', localStorage.username, msg, localStorage.teamName);
         setMsg("");
+        return () => {
+            socket.off('messageLobby');
+            socket.off('message');
+        }
     }
 
     return (

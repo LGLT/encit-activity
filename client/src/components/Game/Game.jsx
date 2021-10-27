@@ -21,12 +21,18 @@ export default function Game () {
 
     useEffect(() => {
         socket.emit('joinToGame')
+        return () => {
+            socket.off('joinToGame');
+        }
     }, [])
 
     useEffect(() => {
         socket.on('sendAllTeamsScore', (allScores) => {
             setNewCircleStyle(true)
-        })  
+        })
+        return () => {
+            socket.off('sendAllTeamsScore')
+        }  
     })
 
     return (

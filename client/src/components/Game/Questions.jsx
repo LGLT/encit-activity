@@ -19,13 +19,19 @@ export default function Questions () {
     useEffect(() => {
         socket.emit('bringQuestions', localStorage.teamName)
         dispatch(saveQuestionIndex(0));
+        
+        return () => {
+            socket.off('bringQuestions');
+        }
     }, [])
 
     useEffect(() => {
         socket.on('sendQuestions', (list) => {
             setQuestions(list)
         })
-        return () => {socket.off("sendQuestions")}
+        return () => {
+            socket.off("sendQuestions");
+        }
     })
 
     useEffect(() => {
@@ -36,7 +42,10 @@ export default function Questions () {
             setI(index)
             socket.emit('cleanSelections', localStorage.teamName)
         })
-        return () => {socket.off("changeQuestion")}
+        return () => {
+            socket.off("changeQuestion");
+            socket.off('cleanSelections');
+        }
     })
 
     useEffect(() => {
