@@ -11,7 +11,6 @@ export default function FormUsername () {
 
     const createUsername = (event) => {
         event.preventDefault();
-        console.log(username)
         dispatch(signUp(username));
     }
 

@@ -20,6 +20,10 @@ export default function Timer () {
 
     useEffect(() => {
         socket.emit('timerHost', localStorage.username);
+
+        return () => {
+            socket.off('timerHost');
+        }
     }, [])
 
     useEffect(() => {
@@ -30,9 +34,12 @@ export default function Timer () {
             return () => clearInterval(timer);
         }
         else{
-            // console.log('ESTAMOS EN FALSE')
             socket.emit('startCount');
             dispatch(gameStarted(true));
+        }
+
+        return () => {
+            socket.off('startCount');
         }
     })
 
@@ -47,9 +54,14 @@ export default function Timer () {
         })
 
         socket.on('saveTimerHost', (host) => {
-            console.log('ESTE ES EL HOST:', host)
             dispatch(saveTimerHost(host))
         })
+
+        return () => {
+            socket.off('setStartCount');
+            socket.off('sendTime');
+            socket.off('saveTimerHost')
+        }
         
     })
 

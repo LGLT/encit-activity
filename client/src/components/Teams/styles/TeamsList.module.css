@@ -78,3 +78,27 @@
     font-variant: all-petite-caps;
     font-weight: 100;
 }
+
+
+/* @media screen and (max-width: 1340px) {
+    .mainDiv {
+        padding-top: 100%;
+    }
+
+    .contentBox {
+        margin-top: -80%;
+    }
+} */
+
+@media screen and (max-width: 1024px) {
+    .teamsList {
+        flex-direction: column;
+    }
+ }
+
+/* @media screen and (max-width: 768px) {
+    
+    .teamsList {
+        flex-direction: column;
+    }
+} */

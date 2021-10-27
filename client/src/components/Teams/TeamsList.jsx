@@ -16,7 +16,6 @@ export default function TeamsList () {
 
     const joinToTeamFunction = (event) => {
         let teamName = event.target.innerText;
-        console.log(teamName);
         socket.emit('joinToTeam', teamName, localStorage.username, localStorage.teamName);
     }
     
@@ -27,11 +26,15 @@ export default function TeamsList () {
 
     const startGameAdmin = (event) => {
         event.preventDefault();
-        if(event.target.nodeName === 'BUTTON') socket.emit('BacteritasAdmin')
+        if(event.target.nodeName === 'BUTTON') socket.emit('BacteritasAdmin');
     }
 
     useEffect(() => {
         socket.emit('bringRooms');
+
+        return () => {
+            socket.off('bringRooms');
+        }
     }, [])
 
     useEffect(() => {
@@ -44,7 +47,6 @@ export default function TeamsList () {
         })
 
         socket.on('saveTimerHost', (host) => {
-            console.log('ESTE ES EL HOST:', host)
             dispatch(saveTimerHost(host))
         })
 

@@ -52,6 +52,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('selectedOption', function (username, teamName, option) {
+            console.log('SELECTED OPTION')
             if(teamName === 'Ciclo hidrológico') {
                 selections.hidrologico.push({name: username, option })
                 io.to(teamName).emit('showSelectedOption', selections.hidrologico)
@@ -81,7 +82,7 @@ exports = module.exports = function(io){
         socket.on('checkAllSelections', function (num, teamName) {
             console.log('NUM:', num, 'Veces entrado...')
             teamsRooms.map(t => t.name === teamName 
-                ? num === t.teammates.length ? io.to(teamName).emit('selectionsFinished') : null
+                ? num === t.teammates.length ? socket.emit('selectionsFinished') : null
                 : null
             )
         });
@@ -103,7 +104,7 @@ exports = module.exports = function(io){
                 results[i]
             }
 
-            io.to(teamName).emit('compareResult', mostSelected)
+            socket.emit('compareResult', mostSelected)
         });
 
         socket.on('nextQuestion', function (teamName, questionIndex) {
@@ -139,9 +140,12 @@ exports = module.exports = function(io){
                 let highScore = 0;
 
                 teamsRooms.map(t => {
-                    if(t.score > highScore) {
+                    if(t.score === highScore){
+                        highScoreTeams.push(t.name);
+                    }
+                    else if(t.score > highScore) {
                         highScore = t.score;
-                        highScoreTeams.push(t.name)
+                        highScoreTeams = [t.name]
                     }
                 })
                 io.emit('endGame', highScoreTeams);
@@ -168,6 +172,7 @@ exports = module.exports = function(io){
             })
 
             // setTimeout(() => {
+                // console.log('LETSCLEAN')
                 socket.emit('cleanLocalStorage');
             // }, 7500);
         });

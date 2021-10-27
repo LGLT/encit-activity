@@ -2,6 +2,8 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)), url('../../img/landingBg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     padding-top: 56%;
     display: flex;
     justify-content: center;
@@ -25,4 +27,35 @@
 
 .end {
     margin-top: -2%;
+}
+
+@media screen and (max-width: 1340px) {
+    .mainDiv {
+        padding-top: 100%;
+    }
+
+    .contentBox {
+        margin-top: -80%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .mainDiv {
+        padding-top: 100%;
+    }
+
+    .contentBox {
+        margin-top: -80%;
+    }
+ }
+
+@media screen and (max-width: 768px) {
+    
+    .mainDiv {
+        padding-top: 150%;
+    }
+
+    .contentBox {
+        margin-top: -100%;
+    }
 }

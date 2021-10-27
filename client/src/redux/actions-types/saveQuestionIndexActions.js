@@ -10,8 +10,6 @@ export const saveQuestionIndex = (index) => {
   }
   else localStorage.setItem('questionIndex', index);
 
-  console.log(index, 'ES EL INDEXX')
-
   return {
     type: SAVE_QUESTION_INDEX, 
     payload: index
