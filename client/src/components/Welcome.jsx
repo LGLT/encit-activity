@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
@@ -8,8 +9,8 @@ import styles from './styles/Welcome.module.css'
 export default function Welcome () {
 
     var store = useSelector(store => store);
-    console.log('STORE', store)
-    console.log('STORAGELOCA:', localStorage.username)
+    // console.log('STORE', store)
+    // console.log('STORAGELOCA:', localStorage.username)
 
     return (
         <div className={styles.mainDiv}>

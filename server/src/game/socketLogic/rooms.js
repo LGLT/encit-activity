@@ -5,25 +5,19 @@ var gameInCourse = false;
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
 
-        //  Verificar si ya hay una partida jugándose.
-        // socket.on('checkGameInCourse', function () {
-        //     console.log('revisando')
-        //     socket.emit('gameInCourse', (gameInCourse ? true : false)); 
-        // })
-
         //  Mandar la información actual de los rooms.
         socket.on('bringRooms', function () {
             socket.join(0);
             if(gameInCourse === false) io.to(0).emit('sendRooms', (teamsRooms)); 
             else {
-                console.log('YA HAY JUEGO EN CURSO')
+                // console.log('YA HAY JUEGO EN CURSO')
                 socket.emit('gameInCourse')  
             } 
         })
         
         //  Unir un jugador a un equipo.
         socket.on('joinToTeam', function (teamName, username, actualTeamName) {
-            console.log(teamName, username, actualTeamName)
+            // console.log(teamName, username, actualTeamName)
             if(actualTeamName) {
                 if(actualTeamName === teamName) return;
                 else {
