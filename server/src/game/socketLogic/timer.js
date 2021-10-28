@@ -6,8 +6,8 @@ let timeIsOver = []
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
 
-        socket.on('timerHost', function(host) {
-            if(timerHost.length === 0) {
+        socket.on('timerHost', function(host, organicStart) {
+            if(timerHost.length === 0 && organicStart === 'true') {
                 timerHost.push(host)
                 console.log('TIMERHOST:', timerHost)
                 io.emit('saveTimerHost', host);

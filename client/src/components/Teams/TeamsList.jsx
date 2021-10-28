@@ -21,12 +21,17 @@ export default function TeamsList () {
     
     const startGame = () => {
         dispatch(gameStarted(true))
+        localStorage.setItem('organicStart', true);
         return <Redirect to="/game" />
     }
 
     const startGameAdmin = (event) => {
         event.preventDefault();
         if(event.target.nodeName === 'BUTTON') socket.emit('BacteritasAdmin');
+
+        return () => {
+            socket.off('BacteritasAdmin');
+        }
     }
 
     useEffect(() => {
@@ -56,7 +61,13 @@ export default function TeamsList () {
 
         socket.on('redirectToGame', () => {
             dispatch(gameStarted(true));
-            return history.push('/game')
+            if(localStorage.teamName){
+                localStorage.setItem('organicStart', true);
+                return history.push('/game')
+            } else {
+                alert('Ya ha iniciado una partida.');
+                setRoomsData([])
+            }
         })
 
         return () => {
@@ -110,22 +121,14 @@ export default function TeamsList () {
                     localStorage.username === 'BacteritasAdmin'
                     && <button onClick={(event) => {startGameAdmin(event)}}>Start game</button>
                 }
-                {   roomsData.length > 0 ?
-                        // roomsData[0].teammates.length === 1 && 
-                        // roomsData[1].teammates.length === 1 && 
-                        // roomsData[2].teammates.length === 1 && 
-                        // roomsData[3].teammates.length === 1 && 
-                        // roomsData[4].teammates.length === 1 && 
-                        // roomsData[5].teammates.length === 1
-                        roomsData[0].teammates.length === 5 || 
-                        roomsData[1].teammates.length === 5 || 
-                        roomsData[2].teammates.length === 5 || 
-                        roomsData[3].teammates.length === 5 || 
-                        roomsData[4].teammates.length === 5 || 
-                        roomsData[5].teammates.length === 5
-                        ? startGame()
-                        : null
-                    : null
+                {   roomsData.length > 0 &&
+                        roomsData[0].teammates.length === 5 && 
+                        roomsData[1].teammates.length === 5 && 
+                        roomsData[2].teammates.length === 5 && 
+                        roomsData[3].teammates.length === 5 && 
+                        roomsData[4].teammates.length === 5 && 
+                        roomsData[5].teammates.length === 5 &&
+                        startGame()
                 }
             </div>
         </div>

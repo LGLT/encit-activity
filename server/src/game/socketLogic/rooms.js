@@ -6,15 +6,19 @@ exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
 
         //  Verificar si ya hay una partida jugándose.
-        socket.on('checkGameInCourse', function () {
-            socket.emit('gameInCourse', (gameInCourse ? true : false)); 
-        })
+        // socket.on('checkGameInCourse', function () {
+        //     console.log('revisando')
+        //     socket.emit('gameInCourse', (gameInCourse ? true : false)); 
+        // })
 
         //  Mandar la información actual de los rooms.
         socket.on('bringRooms', function () {
             socket.join(0);
-            if(!gameInCourse) io.to(0).emit('sendRooms', (teamsRooms)); 
-            else io.to(0).emit('gameInCourse')
+            if(gameInCourse === false) io.to(0).emit('sendRooms', (teamsRooms)); 
+            else {
+                console.log('YA HAY JUEGO EN CURSO')
+                socket.emit('gameInCourse')  
+            } 
         })
         
         //  Unir un jugador a un equipo.
@@ -49,17 +53,21 @@ exports = module.exports = function(io){
         });
 
         socket.on('joinToTeamIfRefresh', function (username, teamName){
+            socket.teamName = teamName;
             teamsRooms.map(t => {
                 if(t.name === teamName && t.teammates.indexOf(username) === -1) {
                     t.teammates.push(username);
                     socket.teamName = t.name;
+                    io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: 'se ha conectado.'})
                 } 
             })
         });
 
-        socket.on('roomSub', function (teamName) {
-            socket.join(teamName)
-            if(!gameInCourse) gameInCourse = true;
+        socket.on('roomSub', function (teamName, organicStart) {
+            if(organicStart === 'true'){
+                socket.join(teamName)
+                if(gameInCourse === false) gameInCourse = true;
+            }
         });
 
         socket.on('restartGame', function (teamName) {

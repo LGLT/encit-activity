@@ -12,7 +12,7 @@ export default function Chat ({lobby}) {
     const [hide, setHide] = useState(false)
 
     useEffect(() => {
-        if(lobby) socket.emit('joinToChatLobby');
+        if(lobby) socket.emit('joinToChatLobby', localStorage.username);
         return () => {
             socket.off('joinToChatLobby')
         }
@@ -54,7 +54,7 @@ export default function Chat ({lobby}) {
 
     return (
         <div 
-            className={lobby ? styles.lobbyMainDiv : styles.mainDiv} 
+            className={styles.mainDiv} 
             style={parseInt(localStorage.questionIndex) > 4 ? {display: "none"} : null}>
 
             <div className={lobby ? styles.lobbyChat : styles.chat}>
