@@ -12,7 +12,11 @@ const PrivateRoute = ({component: Component, type, ...rest}) => {
     else if(type === 'Lobby'){
         return (
             <Route {...rest} > 
-                {localStorage.username ? <Component /> : <Redirect to='/' /> }
+                {
+                localStorage.username 
+                ? localStorage.gameStarted === 'true' ? <Redirect to='/game' /> : <Component /> 
+                : <Redirect to='/' /> 
+                }
             </Route>
         );
     }

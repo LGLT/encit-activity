@@ -20,15 +20,21 @@ export default function Game () {
     const roomSub = () => { socket.emit('roomSub', localStorage.teamName) }
 
     useEffect(() => {
-        socket.emit('joinToGame')
+        socket.emit('joinToGame', localStorage.username);
+        socket.emit('joinToTeamIfRefresh', localStorage.username, localStorage.teamName)
         return () => {
             socket.off('joinToGame');
+            socket.off('joinToTeamIfRefresh');
         }
     }, [])
 
     useEffect(() => {
         socket.on('sendAllTeamsScore', (allScores) => {
             setNewCircleStyle(true)
+        })
+        socket.on('reviewSelections', () => {
+            console.log('REVIEWREVIEW')
+            // socket.emit('checkAllSelections', allSelections.length, localStorage.teamName)
         })
         return () => {
             socket.off('sendAllTeamsScore')

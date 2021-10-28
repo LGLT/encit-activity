@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux'
 import styles from './styles/FormUsername.module.css'
 
+import socket from './socket/socket'
 import { signUp } from '../redux/actions-types/signUpActions';
 
 export default function FormUsername () {
@@ -12,6 +13,10 @@ export default function FormUsername () {
     const createUsername = (event) => {
         event.preventDefault();
         dispatch(signUp(username));
+        socket.emit('createSocketName', username)
+        return () => {
+            socket.off('createSocketName')
+        }
     }
 
     return (
