@@ -20,9 +20,27 @@ let usersFinished = [];
 
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
+        
+        socket.on("disconnect", (reason) => {
+            console.log(`${socket.name} se ha desconectado.`)
+            teamsRooms.map(t => {
+                if(t.teammates.indexOf(socket.name) !== -1) {
+                    t.teammates.splice(t.teammates.indexOf(socket.name), 1);
+                    console.log(t.teammates);
+                }
+            })
+            console.log('TEAMNAME::::::', socket.teamName)
+            io.to(socket.teamName).emit('reviewSelections')
+        });
 
-        socket.on('joinToGame', function () {
+        socket.on('createSocketName', function(username) {
+            socket.name = username;
+            console.log(socket.name);
+        })
+
+        socket.on('joinToGame', function (username) {
             socket.join('game');
+            if(!socket.name) socket.name = username;
         });
 
         socket.on('bringQuestions', function (teamName) {
@@ -82,7 +100,7 @@ exports = module.exports = function(io){
         socket.on('checkAllSelections', function (num, teamName) {
             console.log('NUM:', num, 'Veces entrado...')
             teamsRooms.map(t => t.name === teamName 
-                ? num === t.teammates.length ? socket.emit('selectionsFinished') : null
+                ? num >= t.teammates.length ? socket.emit('selectionsFinished') : null
                 : null
             )
         });
@@ -176,6 +194,10 @@ exports = module.exports = function(io){
                 socket.emit('cleanLocalStorage');
             // }, 7500);
         });
+
+        socket.on('saveSocketName', function (username) {
+            socket.name = username;
+        })
 
         socket.on('BacteritasAdmin', function() {
             io.to(0).emit('redirectToGame')
