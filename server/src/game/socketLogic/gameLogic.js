@@ -1,11 +1,6 @@
-var questionsAzufre = require('../questionBank/questionsAzufre');
-var questionsCarbono = require('../questionBank/questionsCarbono');
-var questionsFosforo = require('../questionBank/questionsFosforo');
-var questionsHidrologico = require('../questionBank/questionsHidrologico');
-var questionsNitrogeno = require('../questionBank/questionsNitrogeno');
-var questionsOxigeno = require('../questionBank/questionsOxigeno');
+var questions = require('../questionBank/questions');
 
-var teamsRooms = require('./teamsInfo')
+var teamsRooms = require('./teamsInfo');
 
 let selections = {
     hidrologico: [],
@@ -22,15 +17,14 @@ exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
         
         socket.on("disconnect", (reason) => {
-            console.log(`${socket.name} se ha desconectado.`)
+            console.log(`${socket.name} se ha desconectado. ${socket.teamName}`)
             teamsRooms.map(t => {
                 if(t.teammates.indexOf(socket.name) !== -1) {
                     t.teammates.splice(t.teammates.indexOf(socket.name), 1);
-                    console.log(t.teammates);
                 }
             })
-            console.log('TEAMNAME::::::', socket.teamName)
             io.to(socket.teamName).emit('reviewSelections')
+            io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: `${socket.name} ha abandonado`})
         });
 
         socket.on('createSocketName', function(username) {
@@ -44,29 +38,30 @@ exports = module.exports = function(io){
         });
 
         socket.on('bringQuestions', function (teamName) {
-            let questions = [];
 
-            if(teamName === 'Ciclo hidrológico') Object.keys(questionsHidrologico).forEach(key => questions.push({
-                data: questionsHidrologico[key]
-             }));
-            if(teamName === 'Ciclo del carbono') Object.keys(questionsCarbono).forEach(key => questions.push({
-                data: questionsCarbono[key]
-             }));
-            if(teamName === 'Ciclo del nitrógeno') Object.keys(questionsNitrogeno).forEach(key => questions.push({
-                data: questionsNitrogeno[key]
-             }));
-            if(teamName === 'Ciclo del azufre') Object.keys(questionsAzufre).forEach(key => questions.push({
-                data: questionsAzufre[key]
-             }));
-            if(teamName === 'Ciclo del fósforo') Object.keys(questionsFosforo).forEach(key => questions.push({
-                data: questionsFosforo[key]
-             }));
-            if(teamName === 'Ciclo del oxígeno') Object.keys(questionsOxigeno).forEach(key => questions.push({
-                data: questionsOxigeno[key]
-             }));
+            teamsRooms.map(t => {
+                if(t.name === teamName && t.questionsSended.length === 0) {
+                    let questionsArray = [];
+
+                    Object.keys(questions).forEach(key => questionsArray.push({
+                        data: questions[key]
+                    }));
+
+                    questionsArray.map(q => {
+                        let randomOrderOptions = q.data.options.sort((a, b) => 0.5 - Math.random());
+                        q.data.options = randomOrderOptions;
+                    })
+                    
+                    let randomOrderQuestions = questionsArray.sort((a, b) => 0.5 - Math.random());
+
+                    t.questionsSended = randomOrderQuestions;
         
-            io.to(teamName).emit('sendQuestions', questions);
+                    io.to(teamName).emit('sendQuestions', randomOrderQuestions);
+                }
+                if(t.name === teamName && t.questionsSended.length > 0) io.to(teamName).emit('sendQuestions', t.questionsSended)
+            })
             
+
         });
 
         socket.on('selectedOption', function (username, teamName, option) {
@@ -143,6 +138,7 @@ exports = module.exports = function(io){
 
         socket.on('bringAllTeamsScore', function(score, teamName) {
             let allScores = [];
+            if(!score) score = 0;
             teamsRooms.map(t => {
                 if(t.name === teamName) t.score === parseInt(score) ? null : t.score = parseInt(score);
                 allScores.push({team: t.name, score: t.score})
@@ -203,6 +199,13 @@ exports = module.exports = function(io){
             io.to(0).emit('redirectToGame')
         })
 
+        socket.on('leftGame', function (username) {
+            teamsRooms.map(t => {
+                if(t.teammates.indexOf(socket.name) !== -1) {
+                    t.teammates.splice(t.teammates.indexOf(username), 1);
+                }
+            })
+        })
     });
 }
     

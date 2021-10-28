@@ -2,13 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .questionTittle {
     text-decoration: overline;
     font-weight: 200;
+    margin: 0 5% 0 5%;
+    text-align: center;
 }
 
 .options {
@@ -25,4 +27,5 @@
     padding: 11px;
     background: white;
     font-weight: lighter;
+    text-align: center;
 }
