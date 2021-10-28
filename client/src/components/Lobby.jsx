@@ -35,13 +35,13 @@ export default function Lobby () {
                     <TeamsList />
                     <Chat lobby={true}/>
                 </div>
-                {/* <div className={styles.credits}>
+                <div className={styles.credits}>
                     <p className={styles.name}>Desarrollado por Leonardo López</p>
                     <div className={styles.links}>
                     <a style={{display: 'contents'}} href="https://www.linkedin.com/in/leonardoglopez/" target="_blank"><img src={inIcon} alt="LinkedIn" style={{width: '15%'}}/></a>
                     <a style={{display: 'contents'}} href="https://github.com/LGLT" target="_blank"><img src={ghIcon} alt="GitHub" style={{width: '15%'}}/></a>
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     );
