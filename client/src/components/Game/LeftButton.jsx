@@ -8,7 +8,7 @@ export default function LeftButton () {
     const history = useHistory();
 
     const leftGame = () => {
-        socket.emit('leftGame', localStorage.username);
+        socket.emit('leftGame', localStorage.username, localStorage.teamName);
         localStorage.removeItem('timerHost');
         localStorage.removeItem('questionIndex');
         localStorage.removeItem('gameStarted');
