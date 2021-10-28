@@ -1,4 +1,4 @@
-let timeMinutes = 9;
+let timeMinutes = 14;
 let timeSeconds = 59;
 let timerHost = [];
 let timeIsOver = []

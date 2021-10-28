@@ -204,7 +204,9 @@ exports = module.exports = function(io){
             io.to(0).emit('redirectToGame')
         })
 
-        socket.on('leftGame', function (username) {
+        socket.on('leftGame', function (username, teamName) {
+            socket.leave(teamName);
+            socket.leave('game');
             teamsRooms.map(t => {
                 if(t.teammates.indexOf(socket.name) !== -1) {
                     t.teammates.splice(t.teammates.indexOf(username), 1);

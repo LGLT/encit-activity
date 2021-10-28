@@ -58,6 +58,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('roomSub', function (teamName, organicStart) {
+            socket.leave('lobbyChat');
             if(organicStart === 'true'){
                 socket.join(teamName)
                 if(gameInCourse === false) gameInCourse = true;
