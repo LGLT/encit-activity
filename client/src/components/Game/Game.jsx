@@ -10,6 +10,7 @@ import Questions from './Questions';
 import Results from './Results';
 import Timer from './Timer';
 import { useState } from 'react';
+import LeftButton from './LeftButton';
 
 export default function Game () {
 
@@ -17,11 +18,18 @@ export default function Game () {
 
     const [newCircleStyle, setNewCircleStyle] = useState(false)
 
-    const roomSub = () => { socket.emit('roomSub', localStorage.teamName) }
+    const roomSub = () => { 
+        socket.emit('roomSub', localStorage.teamName, localStorage.organicStart);
+        
+        return () => {
+            socket.off('roomSub');
+        }
+    }
 
     useEffect(() => {
         socket.emit('joinToGame', localStorage.username);
-        socket.emit('joinToTeamIfRefresh', localStorage.username, localStorage.teamName)
+        socket.emit('joinToTeamIfRefresh', localStorage.username, localStorage.teamName);
+        socket.emit('savesocketname');
         return () => {
             socket.off('joinToGame');
             socket.off('joinToTeamIfRefresh');
@@ -46,6 +54,7 @@ export default function Game () {
             {roomSub()}
             <div className={styles.bar}>
                 <Timer />
+                <LeftButton />
                 <Points />
             </div>
             <div className={styles.questionSection}>

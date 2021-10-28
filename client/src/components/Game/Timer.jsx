@@ -19,7 +19,7 @@ export default function Timer () {
     let timer;
 
     useEffect(() => {
-        socket.emit('timerHost', localStorage.username);
+        socket.emit('timerHost', localStorage.username, localStorage.organicStart);
 
         return () => {
             socket.off('timerHost');

@@ -14,6 +14,7 @@ export default function Lobby () {
             // localStorage.removeItem('teamName');
             localStorage.removeItem('totalPoints');
             localStorage.removeItem('selectedOption');
+            localStorage.removeItem('organicStart');
 
             socket.emit('saveSocketName', localStorage.username)
 
