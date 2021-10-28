@@ -122,12 +122,12 @@ export default function TeamsList () {
                     && <button onClick={(event) => {startGameAdmin(event)}}>Start game</button>
                 }
                 {   roomsData.length > 0 &&
-                        roomsData[0].teammates.length === 5 && 
-                        roomsData[1].teammates.length === 5 && 
-                        roomsData[2].teammates.length === 5 && 
-                        roomsData[3].teammates.length === 5 && 
-                        roomsData[4].teammates.length === 5 && 
-                        roomsData[5].teammates.length === 5 &&
+                        roomsData[0].teammates.length >= 7 && 
+                        roomsData[1].teammates.length >= 7 && 
+                        roomsData[2].teammates.length >= 7 && 
+                        roomsData[3].teammates.length >= 7 && 
+                        roomsData[4].teammates.length >= 7 && 
+                        roomsData[5].teammates.length >= 7 &&
                         startGame()
                 }
             </div>

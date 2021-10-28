@@ -87,12 +87,15 @@ export default function Results () {
             </div>
             <div>
                 {
-                    winner.length > 0 &&
+                    winner.length > 0 
+                    ?
                     <div className={styles.winnersDiv}>
                         <p>Ganadores:</p>
                         {winner.map(w => <h2 key={winner.indexOf(w)}>{w}</h2>)}
                         { restartGame() }
                     </div>
+                    :
+                    <h3 style={{color:'white', textAlign: 'center'}}>Espera mientras el resto de jugadores terminan...</h3>
                 }
             </div>
             {redirect && <Redirect to='/'/>}

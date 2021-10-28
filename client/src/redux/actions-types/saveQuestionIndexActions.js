@@ -5,7 +5,7 @@ export const saveQuestionIndex = (index) => {
   // else
 
   if(localStorage.questionIndex){
-    if(index === 0) {console.log('HAY REINICIO')}
+    if(index === 0) {console.log('Reset')}
     else localStorage.setItem('questionIndex', index);
   }
   else localStorage.setItem('questionIndex', index);
