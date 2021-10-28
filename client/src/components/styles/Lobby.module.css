@@ -1,5 +1,8 @@
 .mainDiv {
-    background: linear-gradient(rgb(77 255 45 / 20%),rgb(255 162 162 / 20%));
+    background: linear-gradient(rgba(255, 255, 255, 0.55),rgba(255, 255, 255, 0.55)), url('../../img/1.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     width: 100%;
     min-height:100vh;
     background-size: cover; 
@@ -9,6 +12,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .info {

@@ -9,7 +9,7 @@ exports = module.exports = function(io){
         socket.on('timerHost', function(host, organicStart) {
             if(timerHost.length === 0 && organicStart === 'true') {
                 timerHost.push(host)
-                console.log('TIMERHOST:', timerHost)
+                // console.log('TIMERHOST:', timerHost)
                 io.emit('saveTimerHost', host);
             }
         });

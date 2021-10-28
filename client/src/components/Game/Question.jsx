@@ -21,7 +21,7 @@ export default function Question ({actual, questionIndex}) {
                 if(mostSelected === actual.answer) dispatch(savePoints(localStorage.totalPoints ? parseInt(localStorage.totalPoints) + 1 : 1)) 
                 setMostSelected(mostSelected);
                 setModalState(!modalState)
-                socket.emit('nextQuestion', localStorage.teamName, parseInt(localStorage.questionIndex) + 1)
+                socket.emit('nextQuestion', localStorage.teamName, parseInt(localStorage.questionIndex) + 1);
             });
             return () => {
                 socket.off("compareResult");
@@ -54,7 +54,7 @@ export default function Question ({actual, questionIndex}) {
                 }
             </div>
             <Selections questionIndex={questionIndex} />
-            <div>{mostSelected ? console.log('MOST SELECTED', mostSelected) :console.log(questionIndex)}
+            <div>
                 {
                     mostSelected &&   
                         mostSelected === actual.answer 
