@@ -17,7 +17,7 @@ exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
         
         socket.on("disconnect", (reason) => {
-            console.log(`${socket.name} se ha desconectado. ${socket.teamName}`)
+            // console.log(`${socket.name} se ha desconectado. ${socket.teamName}`)
             teamsRooms.map(t => {
                 if(t.teammates.indexOf(socket.name) !== -1) {
                     t.teammates.splice(t.teammates.indexOf(socket.name), 1);
@@ -29,7 +29,7 @@ exports = module.exports = function(io){
 
         socket.on('createSocketName', function(username) {
             socket.name = username;
-            console.log(socket.name);
+            // console.log(socket.name);
         })
 
         socket.on('joinToGame', function (username) {
@@ -40,6 +40,11 @@ exports = module.exports = function(io){
         socket.on('bringQuestions', function (teamName) {
 
             teamsRooms.map(t => {
+
+                teamsRooms.map(t => {
+                    if(t.name === teamName) socket.emit('updateQuestionIndex', t.actualQuestion);
+                })
+
                 if(t.name === teamName && t.questionsSended.length === 0) {
                     let questionsArray = [];
 
@@ -65,7 +70,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('selectedOption', function (username, teamName, option) {
-            console.log('SELECTED OPTION')
+            // console.log('SELECTED OPTION')
             if(teamName === 'Ciclo hidrológico') {
                 selections.hidrologico.push({name: username, option })
                 io.to(teamName).emit('showSelectedOption', selections.hidrologico)
@@ -93,7 +98,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('checkAllSelections', function (num, teamName) {
-            console.log('NUM:', num, 'Veces entrado...')
+            // console.log('NUM:', num, 'Veces entrado...')
             teamsRooms.map(t => t.name === teamName 
                 ? num >= t.teammates.length ? socket.emit('selectionsFinished') : null
                 : null
@@ -101,7 +106,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('mostSelected', function (selections, teamName) {
-            console.log('MOST SELECTED')
+            // console.log('MOST SELECTED')
             let results = [];
             selections.map(s => results.push(s.option))
 
@@ -121,7 +126,10 @@ exports = module.exports = function(io){
         });
 
         socket.on('nextQuestion', function (teamName, questionIndex) {
-            console.log('la siguiente pregunta es: ', questionIndex)
+            // console.log('la siguiente pregunta es: ', questionIndex);
+            teamsRooms.map(t => {
+                if(t.name === teamName && t.actualQuestion < questionIndex) t.actualQuestion = questionIndex;
+            })
             setTimeout(() => {
                 io.to(teamName).emit('changeQuestion', questionIndex);
             }, 2000);
@@ -143,7 +151,7 @@ exports = module.exports = function(io){
                 if(t.name === teamName) t.score === parseInt(score) ? null : t.score = parseInt(score);
                 allScores.push({team: t.name, score: t.score})
             })
-            console.log('SCORES:', allScores)
+            // console.log('SCORES:', allScores)
             io.emit('sendAllTeamsScore', allScores)
         })
 
@@ -167,7 +175,7 @@ exports = module.exports = function(io){
         });
 
         socket.on('restartGame', function (teamName) {
-            console.log('RESTARGAME')
+            // console.log('RESTARGAME')
             socket.leave(teamName);
             socket.leave('game');
 
@@ -183,12 +191,9 @@ exports = module.exports = function(io){
             teamsRooms.map(t => {
                 if(t.teammates.length > 0) t.teammates = [];
                 if(t.score > 0) t.score = 0;
-            })
-
-            // setTimeout(() => {
-                // console.log('LETSCLEAN')
-                socket.emit('cleanLocalStorage');
-            // }, 7500);
+            });
+            
+            socket.emit('cleanLocalStorage');
         });
 
         socket.on('saveSocketName', function (username) {

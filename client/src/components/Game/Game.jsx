@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import {useDispatch, useStore} from 'react-redux'
 import styles from './styles/Game.module.css'
@@ -40,48 +41,29 @@ export default function Game () {
         socket.on('sendAllTeamsScore', (allScores) => {
             setNewCircleStyle(true)
         })
-        socket.on('reviewSelections', () => {
-            console.log('REVIEWREVIEW')
-            // socket.emit('checkAllSelections', allSelections.length, localStorage.teamName)
+        socket.on('updateQuestionIndex', (index) => {
+            localStorage.setItem('questionIndex', index);
         })
         return () => {
-            socket.off('sendAllTeamsScore')
+            socket.off('sendAllTeamsScore');
+            socket.off('updateQuestionIndex');
         }  
     })
 
     return (
         <div className={styles.mainDiv}>
-            {roomSub()}
-            <div className={styles.bar}>
-                <Timer />
-                <LeftButton />
-                <Points />
+            <div className={styles.content}>
+                {roomSub()}
+                <div className={styles.bar}>
+                    <Timer />
+                    <LeftButton />
+                    <Points />
+                </div>
+                <div className={styles.questionSection}>
+                    <Questions />
+                    <Chat />
+                </div>
             </div>
-            <div className={styles.questionSection}>
-                <Questions />
-                <Chat />
-            </div>
-            {
-                newCircleStyle
-                ?
-                <div className={
-                    localStorage.teamName === 'Ciclo hidrológico' ? styles.circleEffect1_2 :
-                    localStorage.teamName === 'Ciclo del carbono' ? styles.circleEffect2_2 :
-                    localStorage.teamName === 'Ciclo del nitrógeno' ? styles.circleEffect3_2 :
-                    localStorage.teamName === 'Ciclo del azufre' ? styles.circleEffect4_2:
-                    localStorage.teamName === 'Ciclo del fósforo' ? styles.circleEffect5_2 :
-                    localStorage.teamName === 'Ciclo del oxígeno' ? styles.circleEffect6_2 : null
-                }> </div>
-                :
-                <div className={
-                    localStorage.teamName === 'Ciclo hidrológico' ? styles.circleEffect1 :
-                    localStorage.teamName === 'Ciclo del carbono' ? styles.circleEffect2 :
-                    localStorage.teamName === 'Ciclo del nitrógeno' ? styles.circleEffect3 :
-                    localStorage.teamName === 'Ciclo del azufre' ? styles.circleEffect4:
-                    localStorage.teamName === 'Ciclo del fósforo' ? styles.circleEffect5 :
-                    localStorage.teamName === 'Ciclo del oxígeno' ? styles.circleEffect6 : null
-                }> </div>
-            }
         </div>
     )
 }

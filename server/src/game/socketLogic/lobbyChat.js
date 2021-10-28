@@ -3,7 +3,7 @@ exports = module.exports = function(io){
 
         socket.on('joinToChatLobby', function (username) {
             socket.join('lobbyChat');
-            io.to('lobbyChat').emit('sendMessage', {username: 'Server', msg: `${username} se ha unido.`});
+            io.to('lobbyChat').emit('sendMessage', {username: 'Server', msg: `${username} se ha`});
         });
 
         socket.on('messageLobby', function (username, msg, teamName) {
