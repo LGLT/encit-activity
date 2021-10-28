@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { useEffect } from 'react';
 import TeamsList from './Teams/TeamsList';
 import styles from './styles/Lobby.module.css'
@@ -37,8 +38,8 @@ export default function Lobby () {
                 <div className={styles.credits}>
                     <p className={styles.name}>Desarrollado por Leonardo López</p>
                     <div className={styles.links}>
-                    <a style={{display: 'contents'}} href="https://www.linkedin.com/in/leonardoglopez/"><img src={inIcon} alt="LinkedIn" style={{width: '15%'}}/></a>
-                    <a style={{display: 'contents'}} href="https://github.com/LGLT"><img src={ghIcon} alt="GitHub" style={{width: '15%'}}/></a>
+                    <a style={{display: 'contents'}} href="https://www.linkedin.com/in/leonardoglopez/" target="_blank"><img src={inIcon} alt="LinkedIn" style={{width: '15%'}}/></a>
+                    <a style={{display: 'contents'}} href="https://github.com/LGLT" target="_blank"><img src={ghIcon} alt="GitHub" style={{width: '15%'}}/></a>
                     </div>
                 </div>
             </div>
