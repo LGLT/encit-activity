@@ -18,11 +18,18 @@ export default function Selections ({questionIndex}) {
             socket.on('selectionsFinished', () => {
                 socket.emit('mostSelected', allSelections, localStorage.teamName);
             });
+
+            socket.on('reviewSelections', () => {
+                console.log('REVIEWREVIEW')
+                socket.emit('checkAllSelections', allSelections.length, localStorage.teamName)
+            })
         }
         return () => {
             socket.off("showSelectedOption");
             socket.off("selectionsFinished");
             socket.off('mostSelected'); 
+            socket.off('reviewSelections');
+            socket.off('checkAllSelections');
         }
     });
 

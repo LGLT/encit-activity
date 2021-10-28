@@ -29,7 +29,8 @@ exports = module.exports = function(io){
                             socket.leave(actualTeamName)
                         }
                         if(t.name === teamName) {
-                            t.teammates.push(username); 
+                            t.teammates.push(username);
+                            socket.teamName = teamName;
                             socket.emit('addTeamLocalStorage', t.name);
                         }
                     })
@@ -47,6 +48,14 @@ exports = module.exports = function(io){
             }
         });
 
+        socket.on('joinToTeamIfRefresh', function (username, teamName){
+            teamsRooms.map(t => {
+                if(t.name === teamName && t.teammates.indexOf(username) === -1) {
+                    t.teammates.push(username);
+                    socket.teamName = t.name;
+                } 
+            })
+        });
 
         socket.on('roomSub', function (teamName) {
             socket.join(teamName)
