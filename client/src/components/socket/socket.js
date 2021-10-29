@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 
 // console.log("Desde socket.js", localStorage.token)
-let socket = io('http://localhost:9000',{
-    // path: '/socketio',
+let socket = io('http://159.223.113.224',{
+    path: '/socketio',
     // auth: {
     //   token: localStorage.token,
     //   user: localStorage.user,
