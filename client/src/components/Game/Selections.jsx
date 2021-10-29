@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux'
 
 import socket from '../socket/socket';
 import { saveAllSelections } from '../../redux/actions-types/saveAllSelectionsActions';
+import styles from './styles/Selections.module.css'
 
 export default function Selections ({questionIndex}) {
     const dispatch = useDispatch();
@@ -47,21 +48,20 @@ export default function Selections ({questionIndex}) {
 
     return (
         <div>
-            <div>
-                {
-                    allSelections.length > 0 ?
-                        <div>
-                            {
-                            allSelections.map(s => 
-                                <div key={allSelections.indexOf(s)}>
-                                    <p>{s.name} ha votado: {s.option}</p>
-                                </div>
-                            )
-                            }
+            {
+            allSelections.length > 0 ?
+                <div className={styles.selections}>
+                    {
+                    allSelections.map(s => 
+                        <div key={allSelections.indexOf(s)}>
+                            <p>{s.name} ha votado: {s.option}</p>
                         </div>
-                    : null
-                }
-            </div>
+                    )
+                    }
+                </div>
+            : null
+            }
+
         </div>
     );
 

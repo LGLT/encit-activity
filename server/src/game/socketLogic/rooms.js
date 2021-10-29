@@ -5,6 +5,15 @@ var gameInCourse = false;
 exports = module.exports = function(io){
     io.sockets.on('connection', function (socket) {
 
+        socket.on("disconnect", (reason) => {
+            teamsRooms.map(t => {
+                if(t.name === socket.teamName){
+                    t.teammates.splice(t.teammates.indexOf(socket.name), 1); 
+                }
+            })
+            io.to(0).emit('sendRooms', (teamsRooms));
+        });
+
         //  Mandar la información actual de los rooms.
         socket.on('bringRooms', function () {
             socket.join(0);
@@ -19,7 +28,15 @@ exports = module.exports = function(io){
         socket.on('joinToTeam', function (teamName, username, actualTeamName) {
             // console.log(teamName, username, actualTeamName)
             if(actualTeamName) {
-                if(actualTeamName === teamName) return;
+                if(actualTeamName === teamName) {
+                    teamsRooms.map(t => {
+                        if(t.name === actualTeamName){
+                            t.teammates.splice(t.teammates.indexOf(username), 1); 
+                            socket.leave(actualTeamName)
+                        }
+                    })
+                    io.to(0).emit('sendRooms', (teamsRooms));
+                }
                 else {
                     teamsRooms.map(t => {
                         if(t.name === actualTeamName) {
@@ -40,6 +57,7 @@ exports = module.exports = function(io){
                     if(t.name === teamName){
                         t.teammates.push(username);
                         socket.emit('addTeamLocalStorage', t.name);
+                        socket.teamName = teamName;
                     }
                 })
                 io.to(0).emit('sendRooms', (teamsRooms));
@@ -48,13 +66,16 @@ exports = module.exports = function(io){
 
         socket.on('joinToTeamIfRefresh', function (username, teamName){
             socket.teamName = teamName;
-            teamsRooms.map(t => {
-                if(t.name === teamName && t.teammates.indexOf(username) === -1) {
-                    t.teammates.push(username);
-                    socket.teamName = t.name;
-                    io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: 'se ha conectado.'})
-                } 
-            })
+            // console.log(gameInCourse)
+            if(gameInCourse) {
+                teamsRooms.map(t => {
+                    if(t.name === teamName && t.teammates.indexOf(username) === -1) {
+                        t.teammates.push(username);
+                        socket.teamName = t.name;
+                        io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: 'se ha conectado.'})
+                    } 
+                })
+            } else socket.emit('sendToLobby');
         });
 
         socket.on('roomSub', function (teamName, organicStart) {
@@ -68,6 +89,13 @@ exports = module.exports = function(io){
         socket.on('restartGame', function (teamName) {
             if(gameInCourse) gameInCourse = false;
         });
+
+        socket.on('saveSocketName', function (username) {
+            if(io.sockets?.adapter.rooms.get('game') === undefined && gameInCourse){
+                io.emit('gameInCourse', ('restart'));
+                gameInCourse = false;
+            }
+        })
     });
 }
 
