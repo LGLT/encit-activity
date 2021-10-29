@@ -72,7 +72,7 @@ export default function Game () {
     })
 
     return (
-        <div className={styles.mainDiv}>
+        <div className={ localStorage.questionIndex < 5 ? styles.mainDiv : styles.mainDiv2}>
             <div className={styles.content}>
                 {roomSub()}
                 <div className={styles.bar}>
