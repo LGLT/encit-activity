@@ -6,6 +6,14 @@
     background-attachment: fixed;
 }
 
+.mainDiv2 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)), url('../../../img/2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
 .content {
     display: flex;
     flex-direction: column;
