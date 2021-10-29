@@ -52,7 +52,7 @@ export default function Results () {
             setOnceRestart(1)
             setTimeout(() => {
                 socket.emit('restartGame', localStorage.teamName);
-            }, 20000);
+            }, 5000);
         }
 
         return () => {

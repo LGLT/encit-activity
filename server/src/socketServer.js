@@ -6,7 +6,7 @@ var appSocket = express();
 var server = http.createServer(appSocket);
 
 var io = require("socket.io")(server, {
-    path: "/socketio",
+    // path: "/socketio",
     cors: {
         origin: "*",
         methods: ["GET", "POST"],

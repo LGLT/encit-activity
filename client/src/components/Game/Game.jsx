@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import {useDispatch, useStore} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 import styles from './styles/Game.module.css'
 
 import { saveQuestionIndex } from '../../redux/actions-types/saveQuestionIndexActions';
@@ -14,7 +15,7 @@ import { useState } from 'react';
 import LeftButton from './LeftButton';
 
 export default function Game () {
-
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const [newCircleStyle, setNewCircleStyle] = useState(false)
@@ -44,10 +45,30 @@ export default function Game () {
         socket.on('updateQuestionIndex', (index) => {
             localStorage.setItem('questionIndex', index);
         })
+
+        socket.on('sendToLobby', () => {
+            console.log('sadadasdass')
+            localStorage.removeItem('gameStarted')
+            history.push('/lobby');
+        })
+
         return () => {
             socket.off('sendAllTeamsScore');
             socket.off('updateQuestionIndex');
+            socket.off('sendToLobby');
         }  
+    })
+
+
+    useEffect(() => {
+        socket.on('sendToLobby', () => {
+            console.log('sisisi')
+            history.push('/lobby');
+        })
+
+        return () => {
+            socket.off('sendToLobby')
+        }
     })
 
     return (

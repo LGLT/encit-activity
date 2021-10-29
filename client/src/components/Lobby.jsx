@@ -26,6 +26,7 @@ export default function Lobby () {
             }
     }, [])
 
+
     return (
         <div className={styles.mainDiv}>
             <div className={styles.content}>
