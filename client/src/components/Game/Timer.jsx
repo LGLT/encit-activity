@@ -56,6 +56,7 @@ export default function Timer () {
         })
 
         socket.on('saveTimerHost', (host) => {
+            console.log('EL HOST ES:', host)
             dispatch(saveTimerHost(host))
         })
 

@@ -23,8 +23,23 @@ exports = module.exports = function(io){
                     t.teammates.splice(t.teammates.indexOf(socket.name), 1);
                 }
             })
-            io.to(socket.teamName).emit('reviewSelections')
-            io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: `${socket.name} ha abandonado`})
+            io.to(socket.teamName).emit('reviewSelections');
+            io.to(socket.teamName).emit('sendMessage', {username: 'Server', msg: `${socket.name} ha abandonado`});
+            if(io.sockets.adapter.rooms.get('game') && usersFinished.length >= io.sockets.adapter.rooms.get('game').size) {
+                let highScoreTeams = []
+                let highScore = 0;
+
+                teamsRooms.map(t => {
+                    if(t.score === highScore){
+                        highScoreTeams.push(t.name);
+                    }
+                    else if(t.score > highScore) {
+                        highScore = t.score;
+                        highScoreTeams = [t.name]
+                    }
+                })
+                io.emit('endGame', highScoreTeams);
+            } 
         });
 
         socket.on('createSocketName', function(username) {
@@ -157,7 +172,7 @@ exports = module.exports = function(io){
 
         socket.on('saveFinished', function () {
             usersFinished.push(socket.id);
-            if(io.sockets.adapter.rooms.get('game') && usersFinished.length === io.sockets.adapter.rooms.get('game').size) {
+            if(io.sockets.adapter.rooms.get('game') && usersFinished.length >= io.sockets.adapter.rooms.get('game').size) {
                 let highScoreTeams = []
                 let highScore = 0;
 

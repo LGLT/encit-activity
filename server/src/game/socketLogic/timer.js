@@ -21,7 +21,10 @@ exports = module.exports = function(io){
 
         //  Traer el tiempo actual, almacenado en el servidor. (Cada segundo se realiza)
         socket.on('getTime', function () {
-            if(timeSeconds === 0){
+            if(timeMinutes === 0 && timeSeconds === 0){
+                io.emit('timeOver')
+            }
+            else if(timeSeconds === 0){
                 timeMinutes = timeMinutes - 1;
                 timeSeconds = 59; 
                 io.emit('sendTime', timeMinutes, timeSeconds);
@@ -32,7 +35,7 @@ exports = module.exports = function(io){
         });
         
         socket.on('restartGame', function () {
-            timeMinutes = 9;
+            timeMinutes = 14;
             timeSeconds = 59;
             timerHost = [];
         });

@@ -43,9 +43,16 @@ export default function Questions () {
             setI(index)
             socket.emit('cleanSelections', localStorage.teamName)
         })
+        
+        socket.on('timeOver', () => {
+            localStorage.setItem('questionIndex', 6);
+            setI(6)
+        })
+
         return () => {
             socket.off("changeQuestion");
             socket.off('cleanSelections');
+            socket.off('timeOver');
         }
     })
 

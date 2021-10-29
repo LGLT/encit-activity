@@ -17,6 +17,11 @@ export default function TeamsList () {
     const joinToTeamFunction = (event) => {
         let teamName = event.target.innerText;
         socket.emit('joinToTeam', teamName, localStorage.username, localStorage.teamName);
+        if(localStorage.teamName === teamName) localStorage.removeItem('teamName');
+
+        return () => {
+            socket.off('joinToTeam')
+        }
     }
     
     const startGame = () => {
@@ -44,6 +49,7 @@ export default function TeamsList () {
 
     useEffect(() => {
         socket.on('sendRooms', (teamsRooms) => {
+            if(history.location.pathname === '/lobby' && localStorage.timerHost) localStorage.removeItem('timerHost')
             setRoomsData(teamsRooms);
         })
 
@@ -55,8 +61,9 @@ export default function TeamsList () {
             dispatch(saveTimerHost(host))
         })
 
-        socket.on('gameInCourse', () => {
-            alert('Ya hay una partida en curso. Vuelve más tarde.')
+        socket.on('gameInCourse', (status) => {
+            if(status === 'restart') socket.emit('restartGame', localStorage.teamName);
+            else alert('Ya hay una partida en curso. Vuelve más tarde.')
         })
 
         socket.on('redirectToGame', () => {
@@ -76,6 +83,8 @@ export default function TeamsList () {
             socket.off("saveTimerHost");
             socket.off("gameInCourse");
             socket.off("redirectToGame");
+            socket.off('sendRestart');
+            socket.off('restartGame');
         }
         
     })
